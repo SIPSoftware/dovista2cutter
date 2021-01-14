@@ -163,6 +163,13 @@ def dovista_drawing2shape(drawing):
     else:
         return 0
 
+def getNodeValue(rootNode,nameSpace,nodeName):
+    node = rootNode.find(nodeName,nameSpace)
+    if node is not None:
+        return node.text
+    else:
+        return ''
+
 
 ns = {  'cac':"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
         'cbc':"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
@@ -207,14 +214,11 @@ xml_import_order = ET.Element('cutterImportOrderFile')
 #generowanie gałezi <order>
 xml_order = ET.SubElement(xml_import_order,'order')
 
-deliveryAddress_node = root.find('./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name',ns)
-if deliveryAddress_node is not None:
-    ET.SubElement(xml_order,'deliveryAddress').text = deliveryAddress_node.text
+#pobieranie danych z nagłówka 
+ET.SubElement(xml_order,'deliveryAddress').text = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
 
-numberByCustomerNode = root.find('./cbc:CustomerReference',ns)
-if numberByCustomerNode is not None:
-    ET.SubElement(xml_order,'numberByCustomer').text = numberByCustomerNode.text
-
+orderNumberByCustomer = getNodeValue(root,ns,'./cbc:ID')
+ET.SubElement(xml_order,'numberByCustomer').text = orderNumberByCustomer
 
 #generowanie gałęzi <customer>
 xml_customer = ET.SubElement(xml_import_order,'customer')
@@ -231,24 +235,16 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         # pobranie dodatkowych informacji z <AdditionalItemProperty> do dictionary position['additional_properties']
         additional_properties = {}
         for additional_item_property_node in line_item_node.findall("./cac:Item/cac:AdditionalItemProperty",ns):
-            name = ""
-            value = ""
-            id = ""
-            value_name_node = additional_item_property_node.find('cbc:Name',ns)
-            if value_name_node is not None:
-                name = value_name_node.text
-            value_value_node = additional_item_property_node.find('cbc:Value',ns)
-            if value_value_node is not None:
-                value = value_value_node.text
-            id_node = additional_item_property_node.find("./cac:ItemPropertyGroup/cbc:ID",ns)
-            if id_node is not None:
-                id = id_node.text
-            name_node = additional_item_property_node.find("./cac:ItemPropertyGroup/cbc:Name",ns)
-            if name_node is not None:
-                additional_properties[name_node.text] = {'name':name,'value':value,'id':id}
-            
+            name = getNodeValue(additional_item_property_node,ns,'cbc:Name')
+            value = getNodeValue(additional_item_property_node,ns,'cbc:Value')
+            id = getNodeValue(additional_item_property_node,ns,'cbc:Name')
+
+            node = additional_item_property_node.find("./cac:ItemPropertyGroup/cbc:Name",ns)
+            if node is not None:
+                additional_properties[node.text] = {'name':name,'value':value,'id':id}
+
         order_positions.append({    'additional_properties': additional_properties,
-                                    'sellers_item_identification':line_item_node.find('./cac:Item/cac:SellersItemIdentification/cbc:ID',ns).text})
+                                    'sellers_item_identification':getNodeValue(line_item_node,ns,'./cac:Item/cac:SellersItemIdentification/cbc:ID')})
 
 #generowanie zlec_typ dla zlecenia 
 ET.SubElement(xml_order,'additionalInfo',attrib={"type": "10"}).text = "Zlec_typ 10 dla zlecenia"
@@ -284,6 +280,7 @@ for position in order_positions:
     ET.SubElement(xml_position,'structureName').text = position['additional_properties']['C_GLASS_CODE']['value']
     ET.SubElement(xml_position,'description').text = position['sellers_item_identification']
 
+# obsługa kształtów DOVISTA
     shape_params = {    'drawing': None,
                         'l': None,
                         'l1': None,
@@ -298,12 +295,12 @@ for position in order_positions:
     }
     if 'C_DRAWING' in position['additional_properties']:
          shape_params['drawing'] = position['additional_properties']['C_DRAWING']['value']
-    if 'C_L' in position['additional_properties']:
-         shape_params['l'] = dovista_float2int(position['additional_properties']['C_L']['value'])
-    if 'C_L1' in position['additional_properties']:
-         shape_params['l1'] = dovista_float2int(position['additional_properties']['C_L1']['value'])
-    if 'C_L2' in position['additional_properties']:
-         shape_params['l2'] = dovista_float2int(position['additional_properties']['C_L2']['value'])
+    if 'C_W' in position['additional_properties']:
+         shape_params['l'] = dovista_float2int(position['additional_properties']['C_W']['value'])
+    if 'C_W1' in position['additional_properties']:
+         shape_params['l1'] = dovista_float2int(position['additional_properties']['C_W1']['value'])
+    if 'C_W2' in position['additional_properties']:
+         shape_params['l2'] = dovista_float2int(position['additional_properties']['C_W2']['value'])
     if 'C_H' in position['additional_properties']:
         shape_params['h'] = dovista_float2int(position['additional_properties']['C_H']['value'])
     if 'C_H1' in position['additional_properties']:
@@ -350,45 +347,8 @@ for position in order_positions:
             if shape_params['r3'] is not None:
                 ET.SubElement(xml_shape,'R3').text = str(shape_params['r3'])
     
+    #obsługa szprosów dowolnych
     gb_elevation = 0
-    # gb_dim = {          'w1': None,
-    #                     'w2': None,
-    #                     'w3': None,
-    #                     'w4': None,
-    #                     'w5': None,
-    #                     'w6': None,
-    #                     'w7': None,
-    #                     'w8': None,
-    #                     'w9': None,
-    #                     'h1': None,
-    #                     'h2': None,
-    #                     'h3': None,
-    #                     'h4': None,
-    #                     'h5': None,
-    #                     'h6': None,
-    #                     'h7': None,
-    #                     'h8': None,
-    #                     'h9': None}
-    # gb_seq = {          'w1': None,
-    #                     'w2': None,
-    #                     'w3': None,
-    #                     'w4': None,
-    #                     'w5': None,
-    #                     'w6': None,
-    #                     'w7': None,
-    #                     'w8': None,
-    #                     'w9': None,
-    #                     'h1': None,
-    #                     'h2': None,
-    #                     'h3': None,
-    #                     'h4': None,
-    #                     'h5': None,
-    #                     'h6': None,
-    #                     'h7': None,
-    #                     'h8': None,
-    #                     'h9': None}
-
-
     if 'C_GLZBAR_G_ELEV' in position['additional_properties']:
         gb_elevation = position['additional_properties']['C_GLZBAR_G_ELEV']['name']
     if gb_elevation is None or gb_elevation!='G1':
@@ -472,9 +432,13 @@ for position in order_positions:
             ET.SubElement(xml_gb_dim,'h9').text = str(dovista_float2int(position['additional_properties']['C_GLASS_GH9']['value']))
 
 
-
     # generowanie zlec_typ dla pozycji
-    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "101"}).text = "Zlec_typ 101 dla pozycji"
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301"}).text = str(position['additional_properties']['C_VENDOR']['value'])
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "303"}).text = orderNumberByCustomer
+
+    
+
+# koniec iteracji po pozycjach
 
 
 # xml = ET.ElementTree(xml_import_order)
