@@ -3,6 +3,7 @@ import csv
 import os
 import sys
 import argparse
+import re
 from xml.dom import minidom
 
 def dovista_int2int(string_number):
@@ -170,6 +171,11 @@ def getNodeValue(rootNode,nameSpace,nodeName):
     else:
         return ''
 
+def getAdditionalPropertiesValue(properties,propertyName,propertyType):
+    if propertyName in properties:
+        return properties[propertyName][propertyType]
+    else:
+        return ''
 
 ns = {  'cac':"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
         'cbc':"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
@@ -244,10 +250,13 @@ for order_line_node in root.findall('cac:OrderLine',ns):
                 additional_properties[node.text] = {'name':name,'value':value,'id':id}
 
         order_positions.append({    'additional_properties': additional_properties,
-                                    'sellers_item_identification':getNodeValue(line_item_node,ns,'./cac:Item/cac:SellersItemIdentification/cbc:ID')})
+                                    'sellers_item_identification':getNodeValue(line_item_node,ns,'./cac:Item/cac:SellersItemIdentification/cbc:ID'),
+                                    'order_position': getNodeValue(line_item_node,ns,'./cbc:ID'),
+                                    'sales_order': getNodeValue(order_line_node,ns,'./cac:DocumentReference/cbc:ID'),
+                                    'vendor_info': getNodeValue(line_item_node,ns,'./cac:Item/cac:SellersItemIdentification/cbc:ID')})
 
 #generowanie zlec_typ dla zlecenia 
-ET.SubElement(xml_order,'additionalInfo',attrib={"type": "10"}).text = "Zlec_typ 10 dla zlecenia"
+# ET.SubElement(xml_order,'additionalInfo',attrib={"type": "10"}).text = "Zlec_typ 10 dla zlecenia"
 
 #generowanie pozycji w pliku wyjściowym
 for position in order_positions:
@@ -433,9 +442,57 @@ for position in order_positions:
 
 
     # generowanie zlec_typ dla pozycji
-    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301"}).text = str(position['additional_properties']['C_VENDOR']['value'])
-    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "303"}).text = orderNumberByCustomer
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301", "comment":"DVA Vendor number"}).text = str(position['additional_properties']['C_VENDOR']['value'])
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "303", "comment":"DVA Purchase order number"}).text = orderNumberByCustomer
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "304", "comment":"DVA Purchase order position "}).text = str(position['order_position'])
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "305", "comment":"DVA Sales order"}).text = str(position['sales_order'])
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "306", "comment":"DVA Vendor info"}).text = str(position['vendor_info'])
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "307", "comment":"DVA Platform"}).text = str(position['additional_properties']['C_PLATFORM']['value'])
+    deliveryAddress = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
+    factoryNumber=''
+    # ----wersja 1. tylko litera T i póżniej ciąg cyfr
+    # matchObj = re.match(r'.*(T[0-9]*)',deliveryAddress)
+    # ----wersja 2. Factory potem dowolny znak potem ciąg cyfr
+    matchObj = re.match(r'.*Factory (.[0-9]*)',deliveryAddress)
+    if matchObj is not None:
+        factoryNumber = matchObj.group(1)
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "308", "comment":"DVA Factory number"}).text = factoryNumber
 
+    if 'C_GLASS_SHEET1' in position['additional_properties']:
+        code = position['additional_properties']['C_GLASS_SHEET1']['value']
+
+    product_code_long_name = ''
+    sep = '/'
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_THICK_BUILDUP','value') + ' '
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_SHEET1','value') + sep
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_SPACER1','value') + sep
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_AIR_SPACER1','value') + sep
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_SHEET2','value') + sep
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_SPACER2','value') + sep
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_AIR_SPACER2','value') + sep
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_SHEET3','value') + ' '
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_U_VALUE','value') + ' '
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_LT_VALUE','name') + ' '
+    product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_G_VALUE','value')
+
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "309", "comment":"DVA Glass code long text descrition"}).text = product_code_long_name
+    
+    dimensions = ''
+    dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_WIDTH','value')))+'x'
+    dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_HEIGHT','value')))+'x'
+    glass_thick_list = str(getAdditionalPropertiesValue(position['additional_properties'],'C_GLASS_THICK_BUILDUP','value')).split('-')
+    total_thickness = 0
+    for t in range(0, len(glass_thick_list)): 
+        total_thickness = total_thickness + int(glass_thick_list[t])
+    dimensions = dimensions + str(total_thickness) + 'MM'
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "310", "comment":"DVA Dimmensions(width,height,thickness)"}).text = dimensions
+
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "311", "comment":"DVA Drawing 1"}).text = getAdditionalPropertiesValue(position['additional_properties'],'C_DRAWING','value')
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "312", "comment":"DVA Glazing bar elev. glass"}).text = getAdditionalPropertiesValue(position['additional_properties'],'C_GLZBAR_G_ELEV','name')
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "313", "comment":"DVA Glazing bar var. glass"}).text = getAdditionalPropertiesValue(position['additional_properties'],'C_GLZBAR_G_VAR','name')
+    #14 Emalit colour
+    # ET.SubElement(xml_position,'additionalInfo',attrib={"type": "314"}).text = ''
+    ET.SubElement(xml_position,'additionalInfo',attrib={"type": "316", "comment":"DVA Barcode on label"}).text = orderNumberByCustomer+str(position['order_position'])
     
 
 # koniec iteracji po pozycjach
