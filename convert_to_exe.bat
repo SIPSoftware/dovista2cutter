@@ -1,0 +1,1 @@
+pyinstaller --noconfirm --onefile --console  "dovista2cutter.py"
