@@ -324,7 +324,7 @@ for position in order_positions:
         if shape_number>0:
             ET.SubElement(xml_shape,'catalogue').text = '3'
             ET.SubElement(xml_shape,'number').text = str(shape_number)
-            if shape_params['l'] is not None:
+            if shape_params['l'] != 0:
                 ET.SubElement(xml_shape,'L').text = str(shape_params['l'])
             else:
                 ET.SubElement(xml_shape,'L').text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))
@@ -332,7 +332,7 @@ for position in order_positions:
                 ET.SubElement(xml_shape,'L1').text = str(shape_params['l1'])
             if shape_params['l2'] is not None:
                 ET.SubElement(xml_shape,'L2').text = str(shape_params['l2'])
-            if shape_params['h'] is not None:
+            if shape_params['h'] != 0:
                 ET.SubElement(xml_shape,'H').text = str(shape_params['h'])
             else:
                 ET.SubElement(xml_shape,'H').text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))
