@@ -15,8 +15,7 @@ def dovista_int2int(string_number):
         return 0
 
 def dovista_float2int(string_number):
-    # print(string_number)
-    # print(round(float(string_number)))
+    string_number = string_number.replace(',','')
     if len(string_number)>0:
         return round(float(string_number))
     else:
@@ -438,9 +437,11 @@ for position in order_positions:
     dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))+'x'
     dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))+'x'
     glass_thick_list = str(getAdditionalPropertiesValue(position,'C_GLASS_THICK_BUILDUP','value')).split('-')
+    print(glass_thick_list)
     total_thickness = 0
     for t in range(0, len(glass_thick_list)): 
-        total_thickness = total_thickness + int(glass_thick_list[t])
+        if len(glass_thick_list[t].strip())>0:
+            total_thickness = total_thickness + int(glass_thick_list[t])
     dimensions = dimensions + str(total_thickness) + 'MM'
     ET.SubElement(xml_position,'additionalInfo',attrib={"type": "310", "comment":"DVA Dimmensions(width,height,thickness)"}).text = dimensions
 
