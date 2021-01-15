@@ -21,6 +21,13 @@ def dovista_float2int(string_number):
     else:
         return 0
 
+def dovista_float(string_number):
+    string_number = string_number.replace(',','')
+    if len(string_number)>0:
+        return float(string_number)
+    else:
+        return 0
+
 def dovista_drawing2shape(drawing):
     if drawing == '3011.0085-1':
         return 1
@@ -348,7 +355,7 @@ for position in order_positions:
             if shape_params['r3'] is not None:
                 ET.SubElement(xml_shape,'R3').text = str(shape_params['r3'])
     
-    #obsługa szprosów dowolnych
+    # --- BEGIN --- obsługa szprosów dowolnych
     gb_elevation = 0
     if 'C_GLZBAR_G_ELEV' in position['additional_properties']:
         gb_elevation = position['additional_properties']['C_GLZBAR_G_ELEV']['name']
@@ -357,44 +364,84 @@ for position in order_positions:
         ET.SubElement(xml_gb,'elevation').text = gb_elevation
 
         xml_gb_seq = ET.SubElement(xml_gb,'sequence')
-        ET.SubElement(xml_gb_seq,'w1').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W1','value')
-        ET.SubElement(xml_gb_seq,'w2').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W2','value')
-        ET.SubElement(xml_gb_seq,'w3').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W3','value')
-        ET.SubElement(xml_gb_seq,'w4').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W4','value')
-        ET.SubElement(xml_gb_seq,'w5').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W5','value')
-        ET.SubElement(xml_gb_seq,'w6').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W6','value')
-        ET.SubElement(xml_gb_seq,'w7').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W7','value')
-        ET.SubElement(xml_gb_seq,'w8').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W8','value')
-        ET.SubElement(xml_gb_seq,'w9').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W9','value')
-        ET.SubElement(xml_gb_seq,'h1').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H1','value')
-        ET.SubElement(xml_gb_seq,'h2').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H2','value')
-        ET.SubElement(xml_gb_seq,'h3').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H3','value')
-        ET.SubElement(xml_gb_seq,'h4').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H4','value')
-        ET.SubElement(xml_gb_seq,'h5').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H5','value')
-        ET.SubElement(xml_gb_seq,'h6').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H6','value')
-        ET.SubElement(xml_gb_seq,'h7').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H7','value')
-        ET.SubElement(xml_gb_seq,'h8').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H8','value')
-        ET.SubElement(xml_gb_seq,'h9').text = getAdditionalPropertiesValue(position,'C_GLASS_SEQ_H9','value')
+        d = {
+            'w1' : 'C_GLASS_SEQ_W1',
+            'w2' : 'C_GLASS_SEQ_W2',
+            'w3' : 'C_GLASS_SEQ_W3',
+            'w4' : 'C_GLASS_SEQ_W4',
+            'w5' : 'C_GLASS_SEQ_W5',
+            'w6' : 'C_GLASS_SEQ_W6',
+            'w7' : 'C_GLASS_SEQ_W7',
+            'w8' : 'C_GLASS_SEQ_W8',
+            'w9' : 'C_GLASS_SEQ_W9',
+            'h1' : 'C_GLASS_SEQ_H1',
+            'h2' : 'C_GLASS_SEQ_H2',
+            'h3' : 'C_GLASS_SEQ_H3',
+            'h4' : 'C_GLASS_SEQ_H4',
+            'h5' : 'C_GLASS_SEQ_H5',
+            'h6' : 'C_GLASS_SEQ_H6',
+            'h7' : 'C_GLASS_SEQ_H7',
+            'h8' : 'C_GLASS_SEQ_H8',
+            'h9' : 'C_GLASS_SEQ_H9'
+        }
+        for k in d.keys():
+            value = getAdditionalPropertiesValue(position,d[k],'value')
+            if value != '' and value != '0':
+                ET.SubElement(xml_gb_seq,k).text = value
 
         xml_gb_dim = ET.SubElement(xml_gb,'dimmensions')
-        ET.SubElement(xml_gb_dim,'w1').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW1','value')))
-        ET.SubElement(xml_gb_dim,'w2').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW2','value')))
-        ET.SubElement(xml_gb_dim,'w3').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW3','value')))
-        ET.SubElement(xml_gb_dim,'w4').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW4','value')))
-        ET.SubElement(xml_gb_dim,'w5').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW5','value')))
-        ET.SubElement(xml_gb_dim,'w6').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW6','value')))
-        ET.SubElement(xml_gb_dim,'w7').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW7','value')))
-        ET.SubElement(xml_gb_dim,'w8').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW8','value')))
-        ET.SubElement(xml_gb_dim,'w9').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GW9','value')))
-        ET.SubElement(xml_gb_dim,'h1').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH1','value')))
-        ET.SubElement(xml_gb_dim,'h2').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH2','value')))
-        ET.SubElement(xml_gb_dim,'h3').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH3','value')))
-        ET.SubElement(xml_gb_dim,'h4').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH4','value')))
-        ET.SubElement(xml_gb_dim,'h5').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH5','value')))
-        ET.SubElement(xml_gb_dim,'h6').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH6','value')))
-        ET.SubElement(xml_gb_dim,'h7').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH7','value')))
-        ET.SubElement(xml_gb_dim,'h8').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH8','value')))
-        ET.SubElement(xml_gb_dim,'h9').text = str(dovista_float2int(getAdditionalPropertiesValue(position,'C_GLASS_GH9','value')))
+        d = {
+            'w1' : 'C_GLASS_GW1',
+            'w2' : 'C_GLASS_GW2',
+            'w3' : 'C_GLASS_GW3',
+            'w4' : 'C_GLASS_GW4',
+            'w5' : 'C_GLASS_GW5',
+            'w6' : 'C_GLASS_GW6',
+            'w7' : 'C_GLASS_GW7',
+            'w8' : 'C_GLASS_GW8',
+            'w9' : 'C_GLASS_GW9',
+            'h1' : 'C_GLASS_GH1',
+            'h2' : 'C_GLASS_GH2',
+            'h3' : 'C_GLASS_GH3',
+            'h4' : 'C_GLASS_GH4',
+            'h5' : 'C_GLASS_GH5',
+            'h6' : 'C_GLASS_GH6',
+            'h7' : 'C_GLASS_GH7',
+            'h8' : 'C_GLASS_GH8',
+            'h9' : 'C_GLASS_GH9'
+        }
+
+        for k in d.keys():
+            value = dovista_float2int(getAdditionalPropertiesValue(position,d[k],'value'))
+            if value>0:
+                ET.SubElement(xml_gb_dim,k).text = str(value)
+
+        xml_gb_mat = ET.SubElement(xml_gb,'material')
+        d = {
+            'w1' : 'C_GLASS_VAR_GW1',
+            'w2' : 'C_GLASS_VAR_GW2', 
+            'w3' : 'C_GLASS_VAR_GW3', 
+            'w4' : 'C_GLASS_VAR_GW4',
+            'w5' : 'C_GLASS_VAR_GW5', 
+            'w6' : 'C_GLASS_VAR_GW6', 
+            'w7' : 'C_GLASS_VAR_GW7', 
+            'w8' : 'C_GLASS_VAR_GW8', 
+            'w9' : 'C_GLASS_VAR_GW9',
+            'h1' : 'C_GLASS_VAR_GH1', 
+            'h2' : 'C_GLASS_VAR_GH2', 
+            'h3' : 'C_GLASS_VAR_GH3', 
+            'h4' : 'C_GLASS_VAR_GH4', 
+            'h5' : 'C_GLASS_VAR_GH5', 
+            'h6' : 'C_GLASS_VAR_GH6', 
+            'h7' : 'C_GLASS_VAR_GH7', 
+            'h8' : 'C_GLASS_VAR_GH8', 
+            'h9' : 'C_GLASS_VAR_GH9'
+        }
+        for k in d.keys():
+            value = getAdditionalPropertiesValue(position,d[k],'name')
+            if value != '' and  value != '00':
+                ET.SubElement(xml_gb_mat,k).text = value
+    # --- END --- obsługa szprosów dowolnych
 
 
     # generowanie zlec_typ dla pozycji
@@ -436,12 +483,22 @@ for position in order_positions:
     dimensions = ''
     dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))+'x'
     dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))+'x'
-    glass_thick_list = str(getAdditionalPropertiesValue(position,'C_GLASS_THICK_BUILDUP','value')).split('-')
-    print(glass_thick_list)
+    #glass_thick_list = str(getAdditionalPropertiesValue(position,'C_GLASS_THICK_BUILDUP','value')).split('-')
+    glass_thick_list = [
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SHEET1_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SHEET2_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SHEET3_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SHEET4_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SHEET5_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SPACER1_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SPACER2_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SPACER3_THICKNESS','name')),
+        dovista_float(getAdditionalPropertiesValue(position,'C_GLASS_SPACER4_THICKNESS','name'))
+    ]
     total_thickness = 0
     for t in range(0, len(glass_thick_list)): 
-        if len(glass_thick_list[t].strip())>0:
-            total_thickness = total_thickness + int(glass_thick_list[t])
+        #if len(glass_thick_list[t].strip())>0:
+        total_thickness = total_thickness + glass_thick_list[t]
     dimensions = dimensions + str(total_thickness) + 'MM'
     ET.SubElement(xml_position,'additionalInfo',attrib={"type": "310", "comment":"DVA Dimmensions(width,height,thickness)"}).text = dimensions
 
