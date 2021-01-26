@@ -365,14 +365,22 @@ for k in orders.keys():
                     if value > 0:
                         ET.SubElement(xml_shape,k).text = str(value)
         # --- END --- obsługa kształtów DOVISTA
-    
+
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value')!='':
+            chamber_count = 1
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value')!='':
+            chamber_count = 2
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value')!='':
+            chamber_count = 3
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value')!='':
+            chamber_count = 4
         # --- BEGIN --- obsługa szprosów dowolnych
         gb_elevation = 0
         if 'C_GLZBAR_G_ELEV' in position['additional_properties']:
             gb_elevation = position['additional_properties']['C_GLZBAR_G_ELEV']['name']
         if gb_elevation is None or gb_elevation!='G1':
             xml_gb = ET.SubElement(xml_position,'custom_glazing_bar')
-            for frameno in range(1,2):
+            for frameno in range(1,chamber_count+1):
                 xml_gb_frame = ET.SubElement(xml_gb,'frame',{'no':str(frameno)})
 
                 ET.SubElement(xml_gb_frame,'elevation').text = gb_elevation
