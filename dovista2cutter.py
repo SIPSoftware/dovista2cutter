@@ -349,10 +349,10 @@ for k in orders.keys():
         }
             
         if shape_drawing != '':
-            xml_shape = ET.SubElement(xml_position,'shape')
+            xml_shape = ET.SubElement(xml_position,'shape',{'desc':shape_drawing})
+            ET.SubElement(xml_shape,'catalogue',).text = '3'
             shape_number = dovista_drawing2shape(shape_drawing)
             if shape_number>0:
-                ET.SubElement(xml_shape,'catalogue').text = '3'
                 ET.SubElement(xml_shape,'number').text = str(shape_number)
                 
                 # print(shape_params.keys())
@@ -366,19 +366,19 @@ for k in orders.keys():
                         ET.SubElement(xml_shape,k).text = str(value)
         # --- END --- obsługa kształtów DOVISTA
 
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value')!='':
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value')!=''):
             chamber_count = 1
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value')!='':
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value')!=''):
             chamber_count = 2
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value')!='':
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value')!=''):
             chamber_count = 3
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value')!='':
+        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value')!=''):
             chamber_count = 4
         # --- BEGIN --- obsługa szprosów dowolnych
         gb_elevation = 0
         if 'C_GLZBAR_G_ELEV' in position['additional_properties']:
             gb_elevation = position['additional_properties']['C_GLZBAR_G_ELEV']['name']
-        if gb_elevation is None or gb_elevation!='G1':
+        if len(getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W1','value'))>0:
             xml_gb = ET.SubElement(xml_position,'custom_glazing_bar')
             for frameno in range(1,chamber_count+1):
                 xml_gb_frame = ET.SubElement(xml_gb,'frame',{'no':str(frameno)})
@@ -459,10 +459,11 @@ for k in orders.keys():
                     'h8' : 'C_GLASS_VAR_GH8', 
                     'h9' : 'C_GLASS_VAR_GH9'
                 }
+                gb_colour = getAdditionalPropertiesValue(position,'C_GLASS_SPACER'+str(frameno)+'_COLOUR','value')
                 for k in d.keys():
                     value = getAdditionalPropertiesValue(position,d[k],'name')
                     if value != '' and  value != '00':
-                        ET.SubElement(xml_gb_frame_mat,k).text = value
+                        ET.SubElement(xml_gb_frame_mat,k).text = value +' '+gb_colour
 
         # --- END --- obsługa szprosów dowolnych
 
@@ -497,12 +498,11 @@ for k in orders.keys():
         product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value') + sep
         product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER2','value') + sep
         product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','value') + ' '
-        product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_U_VALUE','value') + ' '
-        product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_LT_VALUE','name') + ' '
-        product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_G_VALUE','value')
+        product_code_long_name = product_code_long_name + 'U='+getAdditionalPropertiesValue(position,'C_GLASS_U_VALUE','value') + ' '
+        product_code_long_name = product_code_long_name + 'Lt='+getAdditionalPropertiesValue(position,'C_GLASS_LT_VALUE','name') + ' '
+        product_code_long_name = product_code_long_name + 'G='+getAdditionalPropertiesValue(position,'C_GLASS_G_VALUE','value')
 
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "309", "comment":"DVA Glass code long text descrition"}).text = product_code_long_name
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Opis struktury według klienta"}).text = product_code_long_name
         
         dimensions = ''
         dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))+'x'
@@ -533,6 +533,8 @@ for k in orders.keys():
         # ET.SubElement(xml_position,'additionalInfo',attrib={"type": "314"}).text = ''
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "316", "comment":"DVA Barcode on label"}).text = orderNumberByCustomer+str(position['order_position'])
         
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Opis struktury według klienta"}).text = product_code_long_name
+
 
 # koniec iteracji po pozycjach
 
