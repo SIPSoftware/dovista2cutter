@@ -282,11 +282,11 @@ ET.SubElement(xml_import,'original_filename').text = os.path.basename(input_file
 
 #generowanie gałęzi <customer> - na razie nie wiem po co
 xml_customer = ET.SubElement(xml_import,'customer')
-ET.SubElement(xml_customer,'name').text = 'VELFAC'
+ET.SubElement(xml_customer,'name').text = 'DOVISTA'
 
 
 #generowanie pozycji w pliku wyjściowym
-print(orders.keys())
+# print(orders.keys())
 for k in orders.keys():
 #generowanie gałezi <order>
     xml_order = ET.SubElement(xml_import,'order')
@@ -295,14 +295,53 @@ for k in orders.keys():
     # ET.SubElement(xml_order,'additionalInfo',attrib={"type": "10"}).text = "Zlec_typ 10 dla zlecenia"
 
     #pobieranie danych z nagłówka 
-    ET.SubElement(xml_order,'deliveryAddress').text = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
-    ET.SubElement(xml_order,'delivery_cutter_number').text = str(227)
+
+    #pobranie informacji o kliencie z C_BRAND z 1. pozycji 
+    customer_brand = getAdditionalPropertiesValue(orders[k][0],'C_BRAND','name')
+
+    #adres dostawy
+    deliveryAddress = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
+    factoryNumber=''
+    # ----wersja 1. tylko litera T i póżniej ciąg cyfr
+    # matchObj = re.match(r'.*(T[0-9]*)',deliveryAddress)
+    # ----wersja 2. Factory potem dowolny znak potem ciąg cyfr
+    matchObj = re.match(r'.*Factory (.[0-9]*)',deliveryAddress)
+    if matchObj is not None:
+        factoryNumber = matchObj.group(1)
+    
+    cutter_customer_info = {
+        'RATIONEL': {
+            'cutter_number': 5680,
+            'delivery_adresses':{
+                'T3': '223',
+                'T1': '224',
+                'T4': '225',
+                'T2': '226',
+                'T7': '227'
+            }
+        },
+        'VELFAC': {
+            'cutter_number': 5681,
+            'delivery_adresses':{
+                'T7': '227',
+                'T5': '228'
+            }
+        }
+    }
+
+    ET.SubElement(xml_order,'deliveryAddress').text = deliveryAddress
+    ET.SubElement(xml_order,'customer_name',{'comment':'factory='+factoryNumber}).text = customer_brand
+    if customer_brand in cutter_customer_info:
+        if 'cutter_number' in cutter_customer_info[customer_brand]:
+            ET.SubElement(xml_order,'customer_cutter_number').text = str(cutter_customer_info[customer_brand]['cutter_number'])
+        if 'delivery_adresses' in cutter_customer_info[customer_brand]:
+            if factoryNumber in cutter_customer_info[customer_brand]['delivery_adresses']:
+                ET.SubElement(xml_order,'delivery_cutter_number').text = str(cutter_customer_info[customer_brand]['delivery_adresses'][factoryNumber])
     orderNumberByCustomer = getNodeValue(root,ns,'./cbc:ID')
     ET.SubElement(xml_order,'numberByCustomer').text = orderNumberByCustomer
     ET.SubElement(xml_order,'order_date').text = date2Cutter(date.today())
     ET.SubElement(xml_order,'notes').text = ''
     ET.SubElement(xml_order,'internal_number').text = ''
-
 
     #delivery date z pozycji zlecenia
     delivery_date = dovista_string2date(k)
@@ -475,14 +514,6 @@ for k in orders.keys():
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "305", "comment":"DVA Sales order"}).text = str(position['sales_order'])
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "306", "comment":"DVA Vendor info"}).text = str(position['vendor_info'])
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "307", "comment":"DVA Platform"}).text = str(getAdditionalPropertiesValue(position,'C_PLATFORM','value'))
-        deliveryAddress = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
-        factoryNumber=''
-        # ----wersja 1. tylko litera T i póżniej ciąg cyfr
-        # matchObj = re.match(r'.*(T[0-9]*)',deliveryAddress)
-        # ----wersja 2. Factory potem dowolny znak potem ciąg cyfr
-        matchObj = re.match(r'.*Factory (.[0-9]*)',deliveryAddress)
-        if matchObj is not None:
-            factoryNumber = matchObj.group(1)
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "308", "comment":"DVA Factory number"}).text = factoryNumber
 
         if 'C_GLASS_SHEET1' in position['additional_properties']:
