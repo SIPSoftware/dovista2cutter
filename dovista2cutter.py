@@ -475,6 +475,9 @@ for k in orders.keys():
                 for k in d.keys():
                     value = dovista_float2int(getAdditionalPropertiesValue(position,d[k],'value'))
                     if value>0:
+                        height = dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value'))
+                        if k[0]=='h':
+                            value = int(height)-int(value)
                         ET.SubElement(xml_gb_frame_dim,k).text = str(value)
 
                 xml_gb_frame_mat = ET.SubElement(xml_gb_frame,'material')
