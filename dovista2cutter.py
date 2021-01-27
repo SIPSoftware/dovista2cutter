@@ -281,8 +281,8 @@ xml_import = ET.Element('cutterImportOrderFile')
 ET.SubElement(xml_import,'original_filename').text = os.path.basename(input_filename)
 
 #generowanie gałęzi <customer> - na razie nie wiem po co
-xml_customer = ET.SubElement(xml_import,'customer')
-ET.SubElement(xml_customer,'name').text = 'DOVISTA'
+# xml_customer = ET.SubElement(xml_import,'customer')
+# ET.SubElement(xml_customer,'name').text = 'Olek'
 
 
 #generowanie pozycji w pliku wyjściowym
