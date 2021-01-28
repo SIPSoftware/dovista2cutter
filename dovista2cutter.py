@@ -273,7 +273,8 @@ for order_line_node in root.findall('cac:OrderLine',ns):
                                     'order_position': getNodeValue(line_item_node,ns,'./cbc:ID'),
                                     'sales_order': getNodeValue(order_line_node,ns,'./cac:DocumentReference/cbc:ID'),
                                     'vendor_info': getNodeValue(line_item_node,ns,'./cac:Item/cac:SellersItemIdentification/cbc:ID'),
-                                    'delivery_date': getNodeValue(line_item_node,ns,'./cac:Delivery/cbc:LatestDeliveryDate')
+                                    'delivery_date': getNodeValue(line_item_node,ns,'./cac:Delivery/cbc:LatestDeliveryDate'),
+                                    'buyers_item_identification': getNodeValue(line_item_node,ns,'./cac:Item/cac:BuyersItemIdentification/cbc:ID')
                                 })
 
 #przygotowanie pliku wyjsciowego
@@ -292,7 +293,8 @@ for k in orders.keys():
     xml_order = ET.SubElement(xml_import,'order')
 
     #generowanie zlec_typ dla zlecenia 
-    # ET.SubElement(xml_order,'additionalInfo',attrib={"type": "10"}).text = "Zlec_typ 10 dla zlecenia"
+    ET.SubElement(xml_order,'additionalInfo',attrib={"type": "301", "comment":"OrderConfirmation: BuyerCustomerParty/ID"}).text = getNodeValue(root,ns,'./cac:BuyerCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID')
+    ET.SubElement(xml_order,'additionalInfo',attrib={"type": "302", "comment":"OrderConfirmation: BuyerCustomerParty/CompanyID"}).text = getNodeValue(root,ns,'./cac:BuyerCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID')
 
     #pobieranie danych z nagłówka 
 
@@ -511,13 +513,13 @@ for k in orders.keys():
 
 
         # generowanie zlec_typ dla pozycji
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301", "comment":"DVA Vendor number"}).text = str(getAdditionalPropertiesValue(position,'C_VENDOR','value'))
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "303", "comment":"DVA Purchase order number"}).text = orderNumberByCustomer
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "304", "comment":"DVA Purchase order position "}).text = str(position['order_position'])
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "305", "comment":"DVA Sales order"}).text = str(position['sales_order'])
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "306", "comment":"DVA Vendor info"}).text = str(position['vendor_info'])
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "307", "comment":"DVA Platform"}).text = str(getAdditionalPropertiesValue(position,'C_PLATFORM','value'))
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "308", "comment":"DVA Factory number"}).text = factoryNumber
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301", "comment":"Label: DVA Vendor number"}).text = str(getAdditionalPropertiesValue(position,'C_VENDOR','value'))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "303", "comment":"Label: DVA Purchase order number"}).text = orderNumberByCustomer
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "304", "comment":"Label: DVA Purchase order position "}).text = str(position['order_position'])
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "305", "comment":"Label: DVA Sales order"}).text = str(position['sales_order'])
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "306", "comment":"Label: DVA Vendor info"}).text = str(position['vendor_info'])
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "307", "comment":"Label: DVA Platform"}).text = str(getAdditionalPropertiesValue(position,'C_PLATFORM','value'))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "308", "comment":"Label: DVA Factory number"}).text = factoryNumber
 
         if 'C_GLASS_SHEET1' in position['additional_properties']:
             code = getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value')
@@ -536,7 +538,7 @@ for k in orders.keys():
         product_code_long_name = product_code_long_name + 'Lt='+getAdditionalPropertiesValue(position,'C_GLASS_LT_VALUE','name') + ' '
         product_code_long_name = product_code_long_name + 'G='+getAdditionalPropertiesValue(position,'C_GLASS_G_VALUE','value')
 
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "309", "comment":"DVA Glass code long text descrition"}).text = product_code_long_name
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "309", "comment":"Label: DVA Glass code long text descrition"}).text = product_code_long_name
         
         dimensions = ''
         dimensions = dimensions + str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))+'x'
@@ -558,16 +560,21 @@ for k in orders.keys():
             #if len(glass_thick_list[t].strip())>0:
             total_thickness = total_thickness + glass_thick_list[t]
         dimensions = dimensions + str(total_thickness) + 'MM'
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "310", "comment":"DVA Dimmensions(width,height,thickness)"}).text = dimensions
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "310", "comment":"Label: DVA Dimmensions(width,height,thickness)"}).text = dimensions
 
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "311", "comment":"DVA Drawing 1"}).text = getAdditionalPropertiesValue(position,'C_DRAWING','value')
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "312", "comment":"DVA Glazing bar elev. glass"}).text = getAdditionalPropertiesValue(position,'C_GLZBAR_G_ELEV','name')
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "313", "comment":"DVA Glazing bar var. glass"}).text = getAdditionalPropertiesValue(position,'C_GLZBAR_G_VAR','name')
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "311", "comment":"Label: DVA Drawing 1"}).text = getAdditionalPropertiesValue(position,'C_DRAWING','value')
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "312", "comment":"Label: DVA Glazing bar elev. glass"}).text = getAdditionalPropertiesValue(position,'C_GLZBAR_G_ELEV','name')
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "313", "comment":"Label: DVA Glazing bar var. glass"}).text = getAdditionalPropertiesValue(position,'C_GLZBAR_G_VAR','name')
         #14 Emalit colour
         # ET.SubElement(xml_position,'additionalInfo',attrib={"type": "314"}).text = ''
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "316", "comment":"DVA Barcode on label"}).text = orderNumberByCustomer+str(position['order_position'])
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "316", "comment":"Label: DVA Barcode on label"}).text = orderNumberByCustomer+str(position['order_position'])
         
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Opis struktury według klienta"}).text = product_code_long_name
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Prints: Opis struktury według klienta"}).text = product_code_long_name
+
+        #klucze dla OrderConfirmation
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "320", "comment":"OrderConfirmation: DVA Purchase order position "}).text = str(position['order_position'])
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "321", "comment":"OrderConfirmation: DVA Glass code long text descrition"}).text = product_code_long_name
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "322", "comment":"OrderConfirmation: BuyersItemIdentification"}).text = str(position['buyers_item_identification'])
 
 
 # koniec iteracji po pozycjach
