@@ -236,8 +236,8 @@ print(output_filename)
 print('-'*50)
 
 #usun plik wyjściowy jeżeli istnieje
-if os.path.exists(output_filename):
-    os.remove(output_filename)
+# if os.path.exists(output_filename):
+    # os.remove(output_filename)
 
 #parsowanie pliku XML
 tree = ET.parse(input_filename)
