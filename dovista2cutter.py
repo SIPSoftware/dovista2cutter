@@ -176,6 +176,42 @@ def dovista_drawing2shape(drawing):
         return 86
     elif drawing == '3011.0089-69':
         return 87
+    elif drawing == '3011.0094-1':
+        return 101
+    elif drawing == '3011.0094-2':
+        return 102
+    elif drawing == '3011.0094-3':
+        return 103
+    elif drawing == '3011.0094-4':
+        return 104
+    elif drawing == '3011.0094-5':
+        return 105
+    elif drawing == '3011.0094-6':
+        return 106
+    elif drawing == '3011.0094-7':
+        return 107
+    # elif drawing == '3011.0094-8': konwersja do AW
+        # return 101
+    elif drawing == '3011.0094-9':
+        return 109
+    elif drawing == '3011.0094-10':
+        return 110
+    # elif drawing == '3011.0094-11': konwersja do aw
+        # return 101
+    elif drawing == '3011.0094-11':
+        return 111
+    elif drawing == '3011.0094-12':
+        return 112
+    elif drawing == '3011.0094-13':
+        return 113
+    elif drawing == '3011.0094-14':
+        return 114
+    elif drawing == '3011.0094-15':
+        return 115
+    elif drawing == '3011.0094-16':
+        return 116
+    elif drawing == '3011.0094-17':
+        return 117
     else:
         return 0
 
