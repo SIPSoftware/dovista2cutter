@@ -407,7 +407,7 @@ for k in orders.keys():
 
         ET.SubElement(xml_position,'structureCode').text = code
         ET.SubElement(xml_position,'structureName').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
-        ET.SubElement(xml_position,'description').text = position['vendor_info']
+        ET.SubElement(xml_position,'description').text = str(position['vendor_info']).replace('GLASS_','').replace('-','').replace(' ','').replace('(','').replace(')','')
         ET.SubElement(xml_position,'delivery_date').text = position['delivery_date']
 
         # --- BEGIN --- obsługa kształtów DOVISTA
@@ -604,7 +604,7 @@ for k in orders.keys():
         #14 Emalit colour
         # ET.SubElement(xml_position,'additionalInfo',attrib={"type": "314"}).text = ''
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "316", "comment":"Label: DVA Barcode on label"}).text = orderNumberByCustomer+str(position['order_position'])
-        
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "317", "comment":"Label: C_GLASS_CODE"}).text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Prints: Opis struktury według klienta"}).text = product_code_long_name
 
         #klucze dla OrderConfirmation
