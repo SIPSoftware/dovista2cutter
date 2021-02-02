@@ -549,10 +549,10 @@ for k in orders.keys():
 
 
         # generowanie zlec_typ dla pozycji
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301", "comment":"Label: DVA Vendor number"}).text = str(getAdditionalPropertiesValue(position,'C_VENDOR','value'))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "301", "comment":"Label/Frame: DVA Vendor number"}).text = str(getAdditionalPropertiesValue(position,'C_VENDOR','value'))
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "303", "comment":"Label: DVA Purchase order number"}).text = orderNumberByCustomer
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "304", "comment":"Label: DVA Purchase order position "}).text = str(position['order_position'])
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "305", "comment":"Label: DVA Sales order"}).text = str(position['sales_order'])
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "305", "comment":"Label/Frame: DVA Sales order"}).text = str(position['sales_order'])
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "306", "comment":"Label: DVA Vendor info"}).text = str(position['vendor_info'])
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "307", "comment":"Label: DVA Platform"}).text = str(getAdditionalPropertiesValue(position,'C_PLATFORM','value'))
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "308", "comment":"Label: DVA Factory number"}).text = factoryNumber
@@ -604,7 +604,12 @@ for k in orders.keys():
         #14 Emalit colour
         # ET.SubElement(xml_position,'additionalInfo',attrib={"type": "314"}).text = ''
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "316", "comment":"Label: DVA Barcode on label"}).text = orderNumberByCustomer+str(position['order_position'])
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "317", "comment":"Label: C_GLASS_CODE"}).text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "317", "comment":"Label/Frame: C_GLASS_CODE"}).text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
+        production_order = ''
+        matchObj = re.match(r'[^\/]*',str(position['vendor_info']))
+        if matchObj is not None:
+            production_order = matchObj.group(0)
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "318", "comment":"Frame: production order"}).text = production_order
 
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Prints: Opis struktury według klienta"}).text = product_code_long_name
 
@@ -613,9 +618,13 @@ for k in orders.keys():
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "321", "comment":"OrderConfirmation: DVA Glass code long text descrition"}).text = product_code_long_name
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "322", "comment":"OrderConfirmation: BuyersItemIdentification"}).text = str(position['buyers_item_identification'])
 
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "330", "comment":"Label: DVA width"}).text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))
-        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "331", "comment":"Label: DVA height"}).text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "330", "comment":"Label/Frame: DVA width"}).text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "331", "comment":"Label/Frame: DVA height"}).text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "332", "comment":"Label: DVA thickness"}).text = str(total_thickness)
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "333", "comment":"Frame: U-Value"}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_U_VALUE','value'))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "334", "comment":"Frame: G-Value"}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_G_VALUE','value'))
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "335", "comment":"Frame: Lt-Value"}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_LT_VALUE','value'))
+
 
 # koniec iteracji po pozycjach
 
