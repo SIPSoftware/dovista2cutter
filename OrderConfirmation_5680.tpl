@@ -5,14 +5,14 @@
 	<cbc:ProfileID schemeAgencyID="320" schemeID="urn:oioubl:id:profileid-1.1">Procurement-OrdSel-BilSim-1.0</cbc:ProfileID>
 <!$MGREPEAT> 
 <!$MGIF_DataExists_001>
-	<cbc:ID><!$MG_zt_z302></cbc:ID>
+	<cbc:ID><!$MG_customer_order></cbc:ID>
 	<cbc:CopyIndicator>false</cbc:CopyIndicator>
 	<cbc:UUID>d8fd3155-ec4f-49e6-bd41-ec0c681ac96f</cbc:UUID>
 	<cbc:IssueDate><!$MG_order_date></cbc:IssueDate>
 	<cbc:DocumentCurrencyCode><!$MG_order_currency></cbc:DocumentCurrencyCode>
 	<cbc:AccountingCost>5250124502</cbc:AccountingCost>
 	<cac:OrderReference>
-		<cbc:ID><!$MG_zt_z302></cbc:ID>
+		<cbc:ID><!$MG_customer_order></cbc:ID>
 		<cbc:IssueDate><!$MG_order_date></cbc:IssueDate>
 	</cac:OrderReference>
 	<cac:SellerSupplierParty>
