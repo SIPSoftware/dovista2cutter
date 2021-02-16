@@ -17,7 +17,7 @@
 	</cac:OrderReference>
 	<cac:SellerSupplierParty>
 		<cac:Party>
-			<cbc:EndpointID schemeID="EU:VAT">PL6341023465</cbc:EndpointID>
+			<cbc:EndpointID schemeAgencyID="9" schemeID="GLN">5909000833616</cbc:EndpointID>
 			<cac:PartyIdentification>
 				<cbc:ID schemeID="ZZZ">PL6341023465</cbc:ID>
 			</cac:PartyIdentification>
