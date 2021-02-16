@@ -499,24 +499,33 @@ for k in orders.keys():
                     'w7' : 'C_GLASS_GW7',
                     'w8' : 'C_GLASS_GW8',
                     'w9' : 'C_GLASS_GW9',
-                    'h1' : 'C_GLASS_GH1',
-                    'h2' : 'C_GLASS_GH2',
-                    'h3' : 'C_GLASS_GH3',
-                    'h4' : 'C_GLASS_GH4',
-                    'h5' : 'C_GLASS_GH5',
-                    'h6' : 'C_GLASS_GH6',
-                    'h7' : 'C_GLASS_GH7',
+                    'h9' : 'C_GLASS_GH9',
                     'h8' : 'C_GLASS_GH8',
-                    'h9' : 'C_GLASS_GH9'
+                    'h7' : 'C_GLASS_GH7',
+                    'h6' : 'C_GLASS_GH6',
+                    'h5' : 'C_GLASS_GH5',
+                    'h4' : 'C_GLASS_GH4',
+                    'h3' : 'C_GLASS_GH3',
+                    'h2' : 'C_GLASS_GH2',
+                    'h1' : 'C_GLASS_GH1'
                 }
 
+                bar_no = 0
+                # analiza listew pionowych
                 for k in d.keys():
                     value = dovista_float2int(getAdditionalPropertiesValue(position,d[k],'value'))
-                    if value>0:
-                        height = dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value'))
-                        if k[0]=='h':
-                            value = int(height)-int(value)
-                        ET.SubElement(xml_gb_frame_dim,k).text = str(value)
+                    if value>0 and k[0]=='w':
+                        bar_no = bar_no + 1
+                        ET.SubElement(xml_gb_frame_dim,k[0]+str(bar_no)).text = str(value)
+                #analiza listew poziomych (od góry)
+                bar_no = 0
+                height = dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value'))
+                for k in d.keys():
+                    value = dovista_float2int(getAdditionalPropertiesValue(position,d[k],'value'))
+                    if value>0 and k[0]=='h':
+                        value = int(height)-int(value)
+                        bar_no = bar_no + 1
+                        ET.SubElement(xml_gb_frame_dim,k[0]+str(bar_no)).text = str(value)
 
                 xml_gb_frame_mat = ET.SubElement(xml_gb_frame,'material')
                 d = {
@@ -610,6 +619,11 @@ for k in orders.keys():
         if matchObj is not None:
             production_order = matchObj.group(0)
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "318", "comment":"Frame: production order"}).text = production_order
+        production_order2 = ''
+        matchObj = re.match(r'[^\-]*',str(position['vendor_info']))
+        if matchObj is not None:
+            production_order2 = matchObj.group(0)
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "319", "comment":"Delivery doc: production order2"}).text = production_order2
 
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "109", "comment":"Prints: Opis struktury według klienta"}).text = product_code_long_name
 
