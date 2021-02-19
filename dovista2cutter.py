@@ -310,7 +310,8 @@ for order_line_node in root.findall('cac:OrderLine',ns):
                                     'sales_order': getNodeValue(order_line_node,ns,'./cac:DocumentReference/cbc:ID'),
                                     'vendor_info': getNodeValue(line_item_node,ns,'./cac:Item/cac:SellersItemIdentification/cbc:ID'),
                                     'delivery_date': getNodeValue(line_item_node,ns,'./cac:Delivery/cbc:LatestDeliveryDate'),
-                                    'buyers_item_identification': getNodeValue(line_item_node,ns,'./cac:Item/cac:BuyersItemIdentification/cbc:ID')
+                                    'buyers_item_identification': getNodeValue(line_item_node,ns,'./cac:Item/cac:BuyersItemIdentification/cbc:ID'),
+                                    'quantity': dovista_float2int(getNodeValue(line_item_node,ns,'./cbc:Quantity'))
                                 })
 
 #przygotowanie pliku wyjsciowego
@@ -390,6 +391,7 @@ for k in orders.keys():
         xml_position = ET.SubElement(xml_order,'position')
         ET.SubElement(xml_position,'width').text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))
         ET.SubElement(xml_position,'height').text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))  
+        ET.SubElement(xml_position,'quantity').text = str(position['quantity'])
 
         code = ''
         elements = [
