@@ -1,3 +1,6 @@
+COIFVERSION = "1.0"
+BUILDVERSION = "1.0.1"
+
 import xml.etree.ElementTree as ET
 import csv
 import os
@@ -212,6 +215,54 @@ def dovista_drawing2shape(drawing):
         return 116
     elif drawing == '3011.0094-17':
         return 117
+    # elif drawing == '3011.0096-01':
+        # return 118
+    # elif drawing == '3011.0096-02':
+        # return 119
+    elif drawing == '3011.0096-03':
+        return 120
+    elif drawing == '3011.0096-04':
+        return 121
+    elif drawing == '3011.0096-05':
+        return 122
+    elif drawing == '3011.0096-06':
+        return 123
+    elif drawing == '3011.0096-07':
+        return 124
+    elif drawing == '3011.0096-08':
+        return 125
+    elif drawing == '3011.0096-09':
+        return 126
+    elif drawing == '3011.0096-10':
+        return 127
+    elif drawing == '3011.0096-11':
+        return 128
+    elif drawing == '3011.0096-12':
+        return 129
+    elif drawing == '3011.0096-13':
+        return 130
+    elif drawing == '3011.0096-14':
+        return 131
+    # elif drawing == '3011.0096-15':
+    #     return 132
+    elif drawing == '3011.0096-16':
+        return 133
+    elif drawing == '3011.0096-17':
+        return 134
+    elif drawing == '3011.0096-18':
+        return 135
+    elif drawing == '3011.0096-19':
+        return 136
+    elif drawing == '3011.0096-20':
+        return 137
+    elif drawing == '3011.0096-21':
+        return 138
+    elif drawing == '3011.0096-22':
+        return 139
+    elif drawing == '3011.0096-23':
+        return 140
+    elif drawing == '3011.0096-24':
+        return 141
     else:
         return 0
 
@@ -315,7 +366,7 @@ for order_line_node in root.findall('cac:OrderLine',ns):
                                 })
 
 #przygotowanie pliku wyjsciowego
-xml_import = ET.Element('cutterImportOrderFile')
+xml_import = ET.Element('cutterImportOrderFile',attrib={"format_version":COIFVERSION,"script":"dovista2cutter","script_version":BUILDVERSION})
 ET.SubElement(xml_import,'original_filename').text = os.path.basename(input_filename)
 
 #generowanie gałęzi <customer> - na razie nie wiem po co
@@ -421,10 +472,10 @@ for k in orders.keys():
             'h':    'C_H',
             'h1':   'C_H1',
             'h2':   'C_H2',
-            'r':    'C_R',
-            'r1':   'C_R1',
-            'r2':   'C_R2',
-            'r3':   'C_R3'
+            'r':    'C_RADIUS',
+            'r1':   'C_RADIUS1',
+            'r2':   'C_RADIUS2',
+            'r3':   'C_RADIUS3'
         }
             
         if shape_drawing != '':
