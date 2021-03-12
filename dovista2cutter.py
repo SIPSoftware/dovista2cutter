@@ -194,15 +194,13 @@ def dovista_drawing2shape(drawing):
     elif drawing == '3011.0094-7':
         return 107
     # elif drawing == '3011.0094-8': konwersja do AW
-        # return 101
+        # return 108
     elif drawing == '3011.0094-9':
         return 109
     elif drawing == '3011.0094-10':
         return 110
     # elif drawing == '3011.0094-11': konwersja do aw
-        # return 101
-    elif drawing == '3011.0094-11':
-        return 111
+        # return 111
     elif drawing == '3011.0094-12':
         return 112
     elif drawing == '3011.0094-13':
