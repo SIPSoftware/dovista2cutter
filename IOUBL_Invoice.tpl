@@ -27,6 +27,16 @@
 			<cac:PartyName>
 				<cbc:Name><!$MG_Inv_Nazwa_Firmy2></cbc:Name> 
 			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:AddressFormatCode listID="urn:oioubl:codelist:addressformatcode-1.1" listAgencyID="320">StructuredDK</cbc:AddressFormatCode>
+				<cbc:StreetName>Hauke-Bosaka</cbc:StreetName>
+				<cbc:BuildingNumber>2</cbc:BuildingNumber>
+				<cbc:CityName>Kielce</cbc:CityName>
+				<cbc:PostalZone>25-214</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode>PL</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
 			<cac:PartyLegalEntity>
 				<cbc:CompanyID schemeID="ZZZ">PL6341023465</cbc:CompanyID> 
 			</cac:PartyLegalEntity>
