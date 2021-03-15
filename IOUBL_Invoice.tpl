@@ -36,37 +36,40 @@
 	<cac:AccountingCustomerParty>
 		<cac:Party>
 			<cbc:EndpointID schemeAgencyID="9" schemeID="GLN"><!$MG_zt_z301></cbc:EndpointID>
-				<cac:PartyIdentification>
-					<cbc:ID schemeID="GLN"><!$MG_zt_z301></cbc:ID> 
-				</cac:PartyIdentification> 
-				<cac:PostalAddress> 
-					<cbc:AddressFormatCode listAgencyID="320" listID="urn:oioubl:codelist:addressformatcode-1.1">StructuredDK</cbc:AddressFormatCode>
-					<cbc:StreetName><!$MG_Inv_Adr_Dost_Street></cbc:StreetName> 
-					<cbc:BuildingNumber><!$MG_Inv_Adr_Dost_Nr></cbc:BuildingNumber> 
-					<cbc:CityName><!$MG_Inv_Adr_Dost_City></cbc:CityName> 
-					<cbc:PostalZone><!$MG_Inv_Adr_Dost_Post_Code></cbc:PostalZone>
-					<cac:Country>
-						<cbc:IdentificationCode><!$MG_Inv_Adr_Dost_Country_Abbr></cbc:IdentificationCode>
-					</cac:Country>
-				</cac:PostalAddress>
-				<cac:PartyTaxScheme>
-					<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_NIP></cbc:CompanyID>
-					<cac:TaxScheme>
-						<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.4" >63</cbc:ID>
-						<cbc:Name>Moms</cbc:Name>
-						<cac:JurisdictionRegionAddress>
-							<cac:Country>
-								<cbc:IdentificationCode><!$MG_Inv_CountryCode></cbc:IdentificationCode> 
-							</cac:Country>
-						</cac:JurisdictionRegionAddress>
-					</cac:TaxScheme>
-				</cac:PartyTaxScheme>
-				<cac:PartyLegalEntity>
-					<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_NIP></cbc:CompanyID>
-				</cac:PartyLegalEntity>
-				<cac:Contact>
-					<cbc:ID>n/a</cbc:ID>
-				</cac:Contact>
+			<cac:PartyIdentification>
+				<cbc:ID schemeID="GLN"><!$MG_zt_z301></cbc:ID> 
+			</cac:PartyIdentification> 
+			<cac:PartyName>
+				<cbc:Name>DOVISTA POLSKA SP. Z O.O.</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress> 
+				<cbc:AddressFormatCode listAgencyID="320" listID="urn:oioubl:codelist:addressformatcode-1.1">StructuredDK</cbc:AddressFormatCode>
+				<cbc:StreetName><!$MG_Inv_Adr_Dost_Street></cbc:StreetName> 
+				<cbc:BuildingNumber><!$MG_Inv_Adr_Dost_Nr></cbc:BuildingNumber> 
+				<cbc:CityName><!$MG_Inv_Adr_Dost_City></cbc:CityName> 
+				<cbc:PostalZone><!$MG_Inv_Adr_Dost_Post_Code></cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode><!$MG_Inv_Adr_Dost_Country_Abbr></cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyTaxScheme>
+				<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_NIP></cbc:CompanyID>
+				<cac:TaxScheme>
+					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.4" >63</cbc:ID>
+					<cbc:Name>Moms</cbc:Name>
+					<cac:JurisdictionRegionAddress>
+						<cac:Country>
+							<cbc:IdentificationCode><!$MG_Inv_CountryCode></cbc:IdentificationCode> 
+						</cac:Country>
+					</cac:JurisdictionRegionAddress>
+				</cac:TaxScheme>
+			</cac:PartyTaxScheme>
+			<cac:PartyLegalEntity>
+				<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_NIP></cbc:CompanyID>
+			</cac:PartyLegalEntity>
+			<cac:Contact>
+				<cbc:ID>n/a</cbc:ID>
+			</cac:Contact>
 		</cac:Party>
 	</cac:AccountingCustomerParty>
 
