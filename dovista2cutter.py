@@ -689,6 +689,10 @@ for k in orders.keys():
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "333", "comment":"Frame: U-Value"}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_U_VALUE','value'))
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "334", "comment":"Frame: G-Value"}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_G_VALUE','value'))
         ET.SubElement(xml_position,'additionalInfo',attrib={"type": "335", "comment":"Frame: Lt-Value"}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_LT_VALUE','value'))
+        sideinout_text = 'THIS SIDE IN'
+        if factoryNumber in ['T1','T2','T3','T4']:
+            sideinout_text = 'THIS SIDE OUT'
+        ET.SubElement(xml_position,'additionalInfo',attrib={"type": "336", "comment":"Label: Side In/Out"}).text = sideinout_text
 
 
 # koniec iteracji po pozycjach
