@@ -63,7 +63,7 @@
 				</cac:Country>
 			</cac:PostalAddress>
 			<cac:PartyTaxScheme>
-				<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_NIP></cbc:CompanyID>
+				<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_Adr_Dost_NIP></cbc:CompanyID>
 				<cac:TaxScheme>
 					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.4" >63</cbc:ID>
 					<cbc:Name>Moms</cbc:Name>
@@ -75,7 +75,7 @@
 				</cac:TaxScheme>
 			</cac:PartyTaxScheme>
 			<cac:PartyLegalEntity>
-				<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_NIP></cbc:CompanyID>
+				<cbc:CompanyID schemeID="ZZZ"><!$MG_Inv_Adr_Dost_NIP></cbc:CompanyID>
 			</cac:PartyLegalEntity>
 			<cac:Contact>
 				<cbc:ID>n/a</cbc:ID>
@@ -106,7 +106,7 @@
 			<cbc:TaxableAmount currencyID="PLN"><!$MG_Inv_Payment_Net_Value_PLN></cbc:TaxableAmount> 
 			<cbc:TaxAmount currencyID="PLN"><!$MG_Inv_Payment_VAT_Value_PLN></cbc:TaxAmount> 
 			<cac:TaxCategory>
-				<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">ZeroRated</cbc:ID>
+				<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">StandardRated</cbc:ID>
 				<cbc:Percent><!$MG_Inv_Payment_VAT_RATE></cbc:Percent> 
 				<cac:TaxScheme>
 					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.1">63</cbc:ID>
@@ -138,7 +138,7 @@
 				<cbc:TaxableAmount currencyID="<!$MG_Inv_Currency_code4>"><!$MG_Inv_Line_Unit_Price></cbc:TaxableAmount>
 				<cbc:TaxAmount currencyID="<!$MG_Inv_Currency_code5>"><!$MG_Inv_Line_VAT_Unit_Value></cbc:TaxAmount> 
 				<cac:TaxCategory>
-					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">ZeroRated</cbc:ID>
+					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">StandardRated</cbc:ID>
 					<cbc:Percent><!$MG_Inv_Line_VAT_Rate></cbc:Percent> 
 					<cac:TaxScheme>
 						<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.1">63</cbc:ID>
