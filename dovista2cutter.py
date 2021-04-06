@@ -399,20 +399,27 @@ for k in orders.keys():
     
     cutter_customer_info = {
         'RATIONEL': {
-            'cutter_number': 5680,
+            'cutter_number': 60261,
             'delivery_adresses':{
-                'T3': '223',
-                'T1': '224',
-                'T4': '225',
-                'T2': '226',
-                'T7': '227'
+                'T1': '522',
+                'T2': '523',
+                'T3': '524',
+                'T4': '525',
+                'T5': '526',
+                'T7': '527',
+                'M1': '528'
             }
         },
         'VELFAC': {
-            'cutter_number': 5681,
+            'cutter_number': 60262,
             'delivery_adresses':{
-                'T7': '227',
-                'T5': '228'
+                'T1': '529',
+                'T2': '530',
+                'T3': '531',
+                'T4': '532',
+                'T5': '533',
+                'T7': '534',
+                'M1': '535'
             }
         }
     }
