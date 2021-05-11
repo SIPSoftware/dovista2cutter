@@ -450,17 +450,45 @@ for k in orders.keys():
         ET.SubElement(xml_position,'quantity').text = str(position['quantity'])
 
         code = ''
-        elements = [
-            getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SHEET4','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value'),
-            getAdditionalPropertiesValue(position,'C_GLASS_SHEET5','value')
-        ]
+        glass_unit = str(getAdditionalPropertiesValue(position,'C_GLASS_UNIT','name'))
+        if glass_unit == 'DGU':
+            elements = [
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value'),
+            ]
+        elif glass_unit == 'TGU':
+            elements = [
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','value'),
+            ]
+
+        elif glass_unit == 'QGU':
+            elements = [
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET4','value'),
+            ]
+        else:
+            elements = [
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET4','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value'),
+                getAdditionalPropertiesValue(position,'C_GLASS_SHEET5','value')
+            ]
+
         code = joinStringsWithoutEmpty(elements,'/')
 
         ET.SubElement(xml_position,'structureCode').text = code
