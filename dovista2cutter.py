@@ -662,7 +662,7 @@ for k in orders.keys():
             product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value') + sep
             product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value') + sep
             product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER1','value') + sep
-            product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value') + sep
+            product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','value') + ' '
         elif glass_unit == 'TGU':
             product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_THICK_BUILDUP','value') + ' '
             product_code_long_name = product_code_long_name + getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','value') + sep
