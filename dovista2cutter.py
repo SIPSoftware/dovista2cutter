@@ -306,6 +306,14 @@ def mirrorShape(shape_params):
         elif number == 4:
             nNumber = 3
 
+        elif number == 5:
+            nNumber = 6
+            nL1 = l - l1
+
+        elif number == 6:
+            nNumber = 5
+            nL1 = l - l1
+
         else:
             nNumber = 0
             nL = 0
