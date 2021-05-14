@@ -264,6 +264,76 @@ def dovista_drawing2shape(drawing):
     else:
         return 0
 
+def mirrorShape(shape_params): 
+    catalogue = shape_params['catalogue']
+    number = shape_params['number']
+    l = shape_params['l']
+    l1 = shape_params['l1']
+    l2 = shape_params['l2']
+    h = shape_params['h']
+    h1 = shape_params['h1']
+    h2 = shape_params['h2']
+    r = shape_params['r']
+    r1 = shape_params['r1']
+    r2 = shape_params['r2']
+    r3= shape_params['r3']
+
+    nCatalogue = 0
+    nNumber = 0
+    nL = l
+    nL1 = l1
+    nL2 = l2
+    nH = h
+    nH1 = h1
+    nH2 = h2
+    nR = r
+    nR1 = r1
+    nR2 = r2
+    nR3 = r3
+
+    if catalogue == 3:
+        nCatalogue = catalogue
+
+        if number == 1:
+            nNumber = 2
+
+        elif number == 2:
+            nNumber = 1
+
+        elif number == 3:
+            nNumber = 4
+
+        elif number == 4:
+            nNumber = 3
+
+        else:
+            nNumber = 0
+            nL = 0
+            nL1 = 0
+            nL2 = 0
+            nH = 0
+            nH1 = 0
+            nH2 = 0
+            nR = 0
+            nR1 = 0
+            nR2 = 0
+            nR3 = 0
+
+    return {
+        'catalogue': nCatalogue,
+        'number': nNumber,
+        'l': nL,
+        'l1': nL1,
+        'l2': nL2,
+        'h': nH,
+        'h1': nH1,
+        'h2': nH2,
+        'r': nR,
+        'r1': nR1,
+        'r2': nR2,
+        'r3': nR3,
+    }
+
 def getNodeValue(rootNode,nameSpace,nodeName):
     node = rootNode.find(nodeName,nameSpace)
     if node is not None:
@@ -498,7 +568,7 @@ for k in orders.keys():
 
         # --- BEGIN --- obsługa kształtów DOVISTA
         shape_drawing = getAdditionalPropertiesValue(position,'C_DRAWING','value')
-        shape_params = {
+        shape_params_def = {
             'l':    'C_W',
             'l1':   'C_W1',
             'l2':   'C_W2',
@@ -513,20 +583,40 @@ for k in orders.keys():
             
         if shape_drawing != '':
             xml_shape = ET.SubElement(xml_position,'shape',{'desc':shape_drawing})
-            ET.SubElement(xml_shape,'catalogue',).text = '3'
             shape_number = dovista_drawing2shape(shape_drawing)
             if shape_number>0:
-                ET.SubElement(xml_shape,'number').text = str(shape_number)
+                #ET.SubElement(xml_shape,'catalogue',).text = '3'
+                #ET.SubElement(xml_shape,'number').text = str(shape_number)
+                shape_params = {
+                    'catalogue': 3,
+                    'number': shape_number,
+                    'l':    0,
+                    'l1':   0,
+                    'l2':   0,
+                    'h':    0,
+                    'h1':   0,
+                    'h2':   0,
+                    'r':    0,
+                    'r1':   0,
+                    'r2':   0,
+                    'r3':   0
+                }
                 
-                # print(shape_params.keys())
-                for k in shape_params.keys():
-                    value = dovista_float2int(getAdditionalPropertiesValue(position,shape_params[k],'value'))
+                # Pobranie parametrów do dict shape_params
+                for k in shape_params_def.keys():
+                    value = dovista_float2int(getAdditionalPropertiesValue(position,shape_params_def[k],'value'))
                     if k =='l' and value == 0:
                         value = dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value'))
                     if k == 'h' and value == 0:
                         value = dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value'))
                     if value > 0:
-                        ET.SubElement(xml_shape,k).text = str(value)
+                        shape_params[k] = value
+                # Odwrócenie kształtu. Kształty DVA są z widokiem od zewnątrz. W EFF trzeba odwrócić
+                shape_params = mirrorShape(shape_params)
+                # Zapisanie nie zerowych parametrów kształtu do XMLa.
+                for k in shape_params.keys():
+                    if shape_params[k]>0:
+                        ET.SubElement(xml_shape,k).text = str(shape_params[k])
         # --- END --- obsługa kształtów DOVISTA
 
         if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value')!=''):
