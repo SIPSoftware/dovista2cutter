@@ -472,146 +472,184 @@ def mirrorShape(shape_params):
             nNumber = 61
 
         elif number == 63:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 64
+            nL1 = l - l1
 
         elif number == 64:
+            nNumber = 63
+            nL1 = l - l1
+
+        elif number == 65: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        elif number == 65:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-        elif number == 66:
+        elif number == 66: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 67:
             nNumber = 36
 
         elif number == 68:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 68
 
         elif number == 69:
             nNumber = 37
 
         elif number == 70:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 71
+            nL1 = l - l1
 
         elif number == 71:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 70
+            nL1 = l - l1
 
         elif number == 73:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 73
+            nL1 = l - l1
         
         elif number == 74:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 75
+            nL1 = l - l1
 
         elif number == 75:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 74
+            nL1 = l - l1
 
         elif number == 76:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 78
+            nL1 = l - l1
 
         elif number == 77:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 77
+            nL1 = l - l1
+            nL2 = l - l2
+            nL3 = l - l3
 
         elif number == 78:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 76
+            nL1 = l - l1
 
         elif number == 79:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 79
+            nL1 = l - l1
+            nL2 = l - l2
 
         elif number == 80:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 81
+            nL1 = l - l1
 
         elif number == 81:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 80
+            nL1 = l - l1
 
         elif number == 82:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 83
+            nL1 = l - l1
 
         elif number == 83:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 82
+            nL1 = l - l1
 
         elif number == 84:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 85
+            nL1 = l - l1
 
         elif number == 85:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 84
+            nL1 = l - l1
 
-        elif number == 86:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        elif number == 86: # poprawic wymiarowanie w katalogu ksztaltow - zamiast '19,06' > 'W'
+            nNumber = 87
+            nL1 = l - l1
 
         elif number == 87:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 86
+            nL1 = l - l1
 
         elif number == 101:
             nNumber = 26
             nL1 = l - l1
 
         elif number == 102:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 102
+            nL1 = l - l1
 
         elif number == 103:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 104
 
         elif number == 104:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 103
 
         elif number == 105:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 106
 
         elif number == 106:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 105
 
         elif number == 107:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 107
+            nL1 = l - l1
+            nL2 = l - l2
+            nH1 = h2
+            nH2 = h1
 
-        # elif number == 108:
+        # elif number == 108: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 109:
+            nNumber = 135
+            nL1 = l - l1
+
+        elif number == 110: # nie moge znalezc odpowiednika w katalogu
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        elif number == 110:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-        # elif number == 111:
+        # elif number == 111: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 112:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 113
 
         elif number == 113:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 112
 
         elif number == 114:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 115
+            nL1 = l - l1 # jezeli nie jest to zawsze rownoleglobok
+            nL2 = l - l2 # jezeli nie jest to zawsze rownoleglobok
 
         elif number == 115:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 114
+            nL1 = l - l1 # jezeli nie jest to zawsze rownoleglobok
+            nL2 = l - l2 # jezeli nie jest to zawsze rownoleglobok
 
         elif number == 116:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 117
+            nL1 = l - l1
+            nL2 = l - l2
 
         elif number == 117:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 116
+            nL1 = l - l1
+            nL2 = l - l2
 
-        # elif number == 118:
+        # elif number == 118: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        # elif number == 119:
+        # elif number == 119: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 120:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 121:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 121
+            nL1 = l - l1
+            nL2 = l - l2
 
         elif number == 122:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 123
 
         elif number == 123:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 122
 
         elif number == 124:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -647,7 +685,8 @@ def mirrorShape(shape_params):
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 135:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 109
+            nL1 = l - l1
 
         elif number == 136:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
