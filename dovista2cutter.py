@@ -314,6 +314,338 @@ def mirrorShape(shape_params):
             nNumber = 5
             nL1 = l - l1
 
+"""
+        elif number == 7:
+            nNumber = 7
+            nL1 = l - l1
+
+        elif number == 8:
+            nNumber = 9
+
+        elif number == 9:
+            nNumber = 8
+
+        elif number == 10:
+            nNumber = 11
+
+        elif number == 11:
+            nNumber = 10
+
+        elif number == 12:
+            nNumber = 12
+            nL1 = l - l1
+
+        elif number == 13:
+            nNumber = 13
+            nL1 = l - l1
+            nH1 = h2
+            nH2 = h1
+
+        elif number == 14:
+            nNumber = 15
+
+        elif number == 15:
+            nNumber = 14
+
+        elif number == 16:
+            nNumber = 17
+            nL1 = l - l1
+
+        elif number == 17:
+            nNumber = 16
+            nL1 = l - l1
+
+        elif number == 18:
+            nNumber = 19
+            nL1 = l - l1
+
+        elif number == 19:
+            nNumber = 18
+            nL1 = l - l1
+
+        elif number == 20:
+            nNumber = 21
+
+        elif number == 21:
+            nNumber = 20
+
+        elif number == 22:
+            nNumber = 23
+            nL1 = l - l1
+
+        elif number == 23:
+            nNumber = 22
+            nL1 = l - l1
+
+        elif number == 24:
+            nNumber = 27
+            nL1 = l - l1
+
+        elif number == 25:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 26:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 27:
+            nNumber = 24
+            nL1 = l - l1
+
+        elif number == 28:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 29:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 30:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 31:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 32:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 33:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 34:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 50:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 51:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 52:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 53:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 54:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 55:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 56:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 57:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 58:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 59:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 60:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 61:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 62:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 63:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 64:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 65:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 66:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 67:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 68:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 69:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 70:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 71:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 73:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        
+        elif number == 74:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 75:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 76:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 77:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 78:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 79:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 80:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 81:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 82:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 83:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 84:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 85:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 86:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 87:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 101:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 102:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 103:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 104:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 105:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 106:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 107:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        # elif number == 108:
+            # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 109:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 110:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        # elif number == 111:
+            # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 112:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 113:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 114:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 115:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 116:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 117:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        # elif number == 118:
+            # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        # elif number == 119:
+            # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 120:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 121:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 122:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 123:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 124:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 125:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 126:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 127:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 128:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 129:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 130:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 131:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        # elif drawing == 132:
+            # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 133:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 134:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 135:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 136:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            
+        elif number == 137:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 138:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 139:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 140:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        elif number == 141:
+            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+"""
         else:
             nNumber = 0
             nL = 0
