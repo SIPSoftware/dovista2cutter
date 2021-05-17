@@ -382,74 +382,94 @@ def mirrorShape(shape_params):
             nL1 = l - l1
 
         elif number == 25:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 30
+            nL1 = l - l1
 
         elif number == 26:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 101
+            nL1 = l - l1
 
         elif number == 27:
             nNumber = 24
             nL1 = l - l1
 
         elif number == 28:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 29
+            nL1 = l - l1
 
         elif number == 29:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 28
+            nL1 = l - l1
 
         elif number == 30:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 25
+            nL1 = l - l1
 
         elif number == 31:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 32
 
         elif number == 32:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 31
 
         elif number == 33:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 33
+            nL1 = l - l1
+            nL2 = l - l2
 
         elif number == 34:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 34
+            nL1 = l - l1
+            nL2 = l - l2
+            nH1 = h2
+            nH2 = h1
+
+        elif number == 35: # brak w sekcji def dovista_drawing2shape(drawing):
+            nNumber = 26
+
+        elif number == 36: # brak w sekcji def dovista_drawing2shape(drawing):
+            nNumber = 67
+
+        elif number == 37: # brak w sekcji def dovista_drawing2shape(drawing):
+            nNumber = 69
 
         elif number == 50:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 50
 
         elif number == 51:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 52
 
         elif number == 52:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 51
 
         elif number == 53:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 53
 
         elif number == 54:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 55
 
         elif number == 55:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 54
 
         elif number == 56:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 56
 
         elif number == 57:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 57
 
         elif number == 58:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 58
 
         elif number == 59:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 60
 
         elif number == 60:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 59
 
         elif number == 61:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 62
 
         elif number == 62:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 61
 
         elif number == 63:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -464,13 +484,13 @@ def mirrorShape(shape_params):
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 67:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 36
 
         elif number == 68:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 69:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 37
 
         elif number == 70:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -524,7 +544,8 @@ def mirrorShape(shape_params):
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 101:
-            nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            nNumber = 26
+            nL1 = l - l1
 
         elif number == 102:
             nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
