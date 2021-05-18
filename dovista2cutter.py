@@ -478,11 +478,11 @@ def mirrorShape(shape_params):
             nNumber = 63
             nL1 = l - l1
 
-        # elif number == 65: # brak rysunku w katalogu ksztaltow Dovisty
-        #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        elif number == 65: # brak rysunku w katalogu ksztaltow Dovisty
+            nNumber = 66
 
-        # elif number == 66: # brak rysunku w katalogu ksztaltow Dovisty
-        #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        elif number == 66: # brak rysunku w katalogu ksztaltow Dovisty
+            nNumber = 65
 
         elif number == 67:
             nNumber = 36
@@ -1031,6 +1031,8 @@ for k in orders.keys():
                 for k in shape_params.keys():
                     if shape_params[k]>0:
                         ET.SubElement(xml_shape,k).text = str(shape_params[k])
+            else:
+                ET.SubElement(xml_shape,'catalogue').text = '3'
         # --- END --- obsługa kształtów DOVISTA
 
         if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value')!=''):
