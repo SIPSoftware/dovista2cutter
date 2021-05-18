@@ -157,8 +157,8 @@ def dovista_drawing2shape(drawing):
         return 75
     elif drawing == '3011.0089-76':
         return 76
-    elif drawing == '3011.0089-77':
-        return 77
+    # elif drawing == '3011.0089-77':
+    #     return 77
     elif drawing == '3011.0089-78':
         return 78
     elif drawing == '3011.0089-79':
