@@ -270,7 +270,6 @@ def mirrorShape(shape_params):
     l = shape_params['l']
     l1 = shape_params['l1']
     l2 = shape_params['l2']
-    l3 = shape_params['l3'] # dodalam L3 (np. ksztalt 77)
     h = shape_params['h']
     h1 = shape_params['h1']
     h2 = shape_params['h2']
@@ -284,7 +283,6 @@ def mirrorShape(shape_params):
     nL = l
     nL1 = l1
     nL2 = l2
-    nL3 = l3 # dodalam L3 (np. ksztalt 77)
     nH = h
     nH1 = h1
     nH2 = h2
@@ -412,15 +410,15 @@ def mirrorShape(shape_params):
         elif number == 32:
             nNumber = 31
 
-        elif number == 33:
+        elif number == 33: # zmiana L1/L2
             nNumber = 33
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
 
-        elif number == 34:
+        elif number == 34: # zmiana L1/L2
             nNumber = 34
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
             nH1 = h2
             nH2 = h1
 
@@ -480,10 +478,10 @@ def mirrorShape(shape_params):
             nNumber = 63
             nL1 = l - l1
 
-        # elif number == 65: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif number == 65: # brak rysunku w katalogu ksztaltow Dovisty
         #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        # elif number == 66: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif number == 66: # brak rysunku w katalogu ksztaltow Dovisty
         #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 67:
@@ -519,20 +517,17 @@ def mirrorShape(shape_params):
             nNumber = 78
             nL1 = l - l1
 
-        elif number == 77:
-            nNumber = 77
-            nL1 = l - l1
-            nL2 = l - l2
-            nL3 = l - l3
+        # elif number == 77: # ksztalt ma wymiar L3 - nie jest oprogramowany, przy transferze z DVA byl traktowany jako ksztalt symetryczny (podstawa)
+        #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 78:
             nNumber = 76
             nL1 = l - l1
 
-        elif number == 79:
+        elif number == 79: # zmiana L1/L2
             nNumber = 79
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
 
         elif number == 80:
             nNumber = 81
@@ -558,7 +553,7 @@ def mirrorShape(shape_params):
             nNumber = 84
             nL1 = l - l1
 
-        elif number == 86: # poprawic wymiarowanie w katalogu ksztaltow - zamiast '19,06' > 'W'
+        elif number == 86: # poprawic wymiarowanie w katalogu ksztaltow Dovisty - '19,06' zmienic na 'W'
             nNumber = 87
             nL1 = l - l1
 
@@ -586,24 +581,24 @@ def mirrorShape(shape_params):
         elif number == 106:
             nNumber = 105
 
-        elif number == 107: # czy ok?
+        elif number == 107:
             nNumber = 107
             nL1 = l - l1
             nL2 = l - l2
             nH1 = h2
             nH2 = h1
 
-        # elif number == 108: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif number == 108: # brak rysunku w katalogu ksztaltow Dovisty
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 109:
             nNumber = 135
             nL1 = l - l1
 
-        # elif number == 110: # nie moge znalezc odpowiednika w katalogu
+        # elif number == 110: # brak odpowiednika w katalogu ksztaltow Dovisty
         #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        # elif number == 111: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif number == 111: # brak rysunku w katalogu ksztaltow Dovisty
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 112:
@@ -612,39 +607,39 @@ def mirrorShape(shape_params):
         elif number == 113:
             nNumber = 112
 
-        elif number == 114:
+        elif number == 114: # zmiana L1/L2
             nNumber = 115
-            nL1 = l - l1 # jezeli nie jest to zawsze rownoleglobok
-            nL2 = l - l2 # jezeli nie jest to zawsze rownoleglobok
+            nL1 = l - l2
+            nL2 = l - l1
 
-        elif number == 115:
+        elif number == 115: # zmiana L1/L2
             nNumber = 114
-            nL1 = l - l1 # jezeli nie jest to zawsze rownoleglobok
-            nL2 = l - l2 # jezeli nie jest to zawsze rownoleglobok
+            nL1 = l - l2
+            nL2 = l - l1
 
-        elif number == 116:
+        elif number == 116: # zmiana L1/L2
             nNumber = 117
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
 
-        elif number == 117:
+        elif number == 117: # zmiana L1/L2
             nNumber = 116
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
 
-        # elif number == 118: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif number == 118: # brak rysunku w katalogu ksztaltow Dovisty
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        # elif number == 119: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif number == 119: # brak rysunku w katalogu ksztaltow Dovisty
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        # elif number == 120: # nie moge znalezc odpowiednika w katalogu
+        # elif number == 120: # brak odpowiednika w katalogu ksztaltow Dovisty
         #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        elif number == 121:
+        elif number == 121: # zmiana L1/L2
             nNumber = 121
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
 
         elif number == 122:
             nNumber = 123
@@ -660,7 +655,7 @@ def mirrorShape(shape_params):
             nNumber = 124
             nL1 = l - l1
 
-        # elif number == 126: # nie moge znalezc odpowiednika w katalogu
+        # elif number == 126: # brak odpowiednika w katalogu ksztaltow Dovisty
         #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 127:
@@ -679,10 +674,10 @@ def mirrorShape(shape_params):
         elif number == 130:
             nNumber = 130
 
-        # elif number == 131: # nie moge znalezc odpowiednika w katalogu
+        # elif number == 131: # brak odpowiednika w katalogu ksztaltow Dovisty
         #     nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        # elif drawing == 132: # nie ma w katalogu ksztaltow Dovisty (brak rysunku)
+        # elif drawing == 132: # brak rysunku w katalogu ksztaltow Dovisty
             # nNumber = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
         elif number == 133:
@@ -693,15 +688,17 @@ def mirrorShape(shape_params):
             nNumber = 134
             nL1 = l - l1
             nL2 = l - l2
+            nH1 = h2
+            nH2 = h1
 
         elif number == 135:
             nNumber = 109
             nL1 = l - l1
 
-        elif number == 136:
+        elif number == 136: # zmiana L1/L2
             nNumber = 136
-            nL1 = l - l1
-            nL2 = l - l2
+            nL1 = l - l2
+            nL2 = l - l1
             
         elif number == 137:
             nNumber = 137
@@ -710,26 +707,18 @@ def mirrorShape(shape_params):
         elif number == 138:
             nNumber = 139
             nL1 = l - l1
-            nH1 = h2
-            nH2 = h1
 
         elif number == 139:
             nNumber = 138
             nL1 = l - l1
-            nH1 = h2
-            nH2 = h1
 
         elif number == 140:
             nNumber = 141
             nL1 = l - l1
-            nH1 = h2
-            nH2 = h1
 
         elif number == 141:
             nNumber = 140
             nL1 = l - l1
-            nH1 = h2
-            nH2 = h1
 
         else:
             nNumber = 0
