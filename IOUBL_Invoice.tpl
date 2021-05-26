@@ -126,12 +126,14 @@
 		<cbc:Note><!$MG_zt_p306></cbc:Note> 
 		<cbc:InvoicedQuantity unitCode="EA"><!$MG_Inv_Line_Qty_Pcs></cbc:InvoicedQuantity> 
 		<cbc:LineExtensionAmount currencyID="<!$MG_Inv_Currency_code2>"><!$MG_Inv_Line_Value></cbc:LineExtensionAmount> 
+		<!$MGIF_OrderReferenceExists>
 		<cac:OrderLineReference> 
 			<cbc:LineID><!$MG_zt_p304></cbc:LineID>
 			<cac:OrderReference>
 				<cbc:ID><!$MG_zt_p303></cbc:ID>
 			</cac:OrderReference>
 		</cac:OrderLineReference>
+		<!$MGENDIF>
 		<cac:TaxTotal>
 			<cbc:TaxAmount currencyID="<!$MG_Inv_Currency_code3>"><!$MG_Inv_Line_VAT_Value></cbc:TaxAmount> 
 			<cac:TaxSubtotal>
@@ -150,9 +152,11 @@
 		<cac:Item>
 			<cbc:Description><!$MG_Inv_Line_Weight> kg</cbc:Description> 
 			<cbc:Name><!$MG_zt_p309></cbc:Name> 
+			<!$MGIF_OrderReferenceExists>
 			<cac:SellersItemIdentification>
 				<cbc:ID><!$MG_zt_p304></cbc:ID> 
 			</cac:SellersItemIdentification>
+			<!$MGENDIF>
 		</cac:Item>
 		<cac:Price>
 			<cbc:PriceAmount currencyID="<!$MG_Inv_Currency_code6>"><!$MG_Inv_Line_Value></cbc:PriceAmount> 
