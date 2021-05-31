@@ -770,6 +770,16 @@ def joinStringsWithoutEmpty(elements,sep):
 def date2Cutter(d):
     return d.strftime("%Y-%m-%d")
 
+def getFactoryNumber(deliveryAddress):
+    # ----wersja 1. tylko litera T i póżniej ciąg cyfr
+    # matchObj = re.match(r'.*(T[0-9]*)',deliveryAddress)
+    # ----wersja 2. Factory potem dowolny znak potem ciąg cyfr
+    factoryNumber = ''
+    matchObj = re.match(r'.*Factory (.[0-9]*)',deliveryAddress)
+    if matchObj is not None:
+        factoryNumber = matchObj.group(1)
+    return factoryNumber
+
 
 ns = {  'cac':"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
         'cbc':"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
@@ -784,6 +794,8 @@ parser.add_argument('-i',dest='inputfile',
                     help='plik wejściowy')
 parser.add_argument('-o',dest='outputfile',
                     help='plik wyjściowy')
+parser.add_argument('--sepfn',action='store_true',dest='separate_order_factory_number',
+                    help='podział zlecenia według factoryNumber')
 
 #parsowanie parametrów wejściowych
 args = parser.parse_args()
@@ -800,8 +812,9 @@ else:
     print("No such file: "+args.inputfile)
     sys.exit()
 
-print(input_filename)
-print(output_filename)
+print('input file: '+input_filename)
+print('output file: '+output_filename)
+print('separate_order_factory_number: '+str(args.separate_order_factory_number))
 print('-'*50)
 
 #usun plik wyjściowy jeżeli istnieje
@@ -813,20 +826,17 @@ tree = ET.parse(input_filename)
 root = tree.getroot()
 
 orders = {}
-#order_positions = []
+
+#adres dostawy
+deliveryAddress = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
+factoryNumber = getFactoryNumber(deliveryAddress)
+
 #iteracja po OrderLine
 for order_line_node in root.findall('cac:OrderLine',ns):
     #iteracja po LineItem
     for line_item_node in order_line_node.findall('cac:LineItem',ns):
         #pobranie informacji o pozycji
     
-        #podział pozycje na różne zlecenia w zależności od daty dostawy
-        delivery_date = getNodeValue(line_item_node,ns,'./cac:Delivery/cbc:LatestDeliveryDate')
-        if delivery_date in orders.keys():
-            order_positions = orders[delivery_date]
-        else:
-            orders[delivery_date] = []
-            order_positions = orders[delivery_date]
         # pobranie dodatkowych informacji z <AdditionalItemProperty> do dictionary position['additional_properties']
         additional_properties = {}
         for additional_item_property_node in line_item_node.findall("./cac:Item/cac:AdditionalItemProperty",ns):
@@ -837,6 +847,31 @@ for order_line_node in root.findall('cac:OrderLine',ns):
             node = additional_item_property_node.find("./cac:ItemPropertyGroup/cbc:Name",ns)
             if node is not None:
                 additional_properties[node.text] = {'name':name,'value':value,'id':id}
+
+        #podział pozycje na różne zlecenia w zależności od daty dostawy i innych informacji
+        order_note = ''
+        delivery_date = getNodeValue(line_item_node,ns,'./cac:Delivery/cbc:LatestDeliveryDate')
+        separate_order_string = delivery_date
+        if args.separate_order_factory_number:
+            if factoryNumber == 'T3':
+                elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
+                separate_order_string = separate_order_string + elevation_shape
+                order_note = 'Strefa montażu {0} {1}! NIE ŁĄCZYĆ Z SZBAMI INNYCH STREF DVA !'.format(factoryNumber,elevation_shape)
+            if factoryNumber == 'T7':
+                platform = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_PLATFORM','value')
+                separate_order_string = separate_order_string + platform
+                order_note = 'Strefa montażu {0} {1}! NIE ŁĄCZYĆ Z SZBAMI INNYCH STREF DVA !'.format(factoryNumber,platform)
+
+        if separate_order_string in orders.keys():
+            order_positions = orders[separate_order_string]['positions']
+        else:
+            orders[separate_order_string] = []
+            orders[separate_order_string] = {
+                'positions': [],
+                'delivery_date': delivery_date,
+                'note': order_note
+            }
+            order_positions = orders[separate_order_string]['positions']
 
         order_positions.append({    'additional_properties': additional_properties,
                                     'order_position': getNodeValue(line_item_node,ns,'./cbc:ID'),
@@ -860,7 +895,8 @@ ET.SubElement(xml_import,'original_filename').text = os.path.basename(input_file
 # print(orders.keys())
 for k in orders.keys():
 #generowanie gałezi <order>
-    xml_order = ET.SubElement(xml_import,'order')
+    positions = orders[k]['positions']
+    xml_order = ET.SubElement(xml_import,'order',attrib={"comment":k})
 
     #generowanie zlec_typ dla zlecenia 
     ET.SubElement(xml_order,'additionalInfo',attrib={"type": "301", "comment":"OrderConfirmation: BuyerCustomerParty/ID"}).text = getNodeValue(root,ns,'./cac:BuyerCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID')
@@ -869,18 +905,8 @@ for k in orders.keys():
     #pobieranie danych z nagłówka 
 
     #pobranie informacji o kliencie z C_BRAND z 1. pozycji 
-    customer_brand = getAdditionalPropertiesValue(orders[k][0],'C_BRAND','name')
+    customer_brand = getAdditionalPropertiesValue(positions[0],'C_BRAND','name')
 
-    #adres dostawy
-    deliveryAddress = getNodeValue(root,ns,'./cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name')
-    factoryNumber=''
-    # ----wersja 1. tylko litera T i póżniej ciąg cyfr
-    # matchObj = re.match(r'.*(T[0-9]*)',deliveryAddress)
-    # ----wersja 2. Factory potem dowolny znak potem ciąg cyfr
-    matchObj = re.match(r'.*Factory (.[0-9]*)',deliveryAddress)
-    if matchObj is not None:
-        factoryNumber = matchObj.group(1)
-    
     cutter_customer_info = {
         'RATIONEL': {
             'cutter_number': 60261,
@@ -919,15 +945,15 @@ for k in orders.keys():
     orderNumberByCustomer = getNodeValue(root,ns,'./cbc:ID')
     ET.SubElement(xml_order,'numberByCustomer').text = orderNumberByCustomer
     ET.SubElement(xml_order,'order_date').text = date2Cutter(date.today())
-    ET.SubElement(xml_order,'notes').text = ''
+    ET.SubElement(xml_order,'notes').text = orders[k]['note']
     ET.SubElement(xml_order,'internal_number').text = ''
 
     #delivery date z pozycji zlecenia
-    delivery_date = dovista_string2date(k)
+    delivery_date = dovista_string2date(orders[k]['delivery_date'])
     ET.SubElement(xml_order,'delivery_date').text = date2Cutter(delivery_date)
     ET.SubElement(xml_order,'customer_date').text = date2Cutter(delivery_date)
 
-    for position in orders[k]:
+    for position in positions:
         xml_position = ET.SubElement(xml_order,'position')
         ET.SubElement(xml_position,'width').text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_WIDTH','value')))
         ET.SubElement(xml_position,'height').text = str(dovista_int2int(getAdditionalPropertiesValue(position,'C_GLASS_HEIGHT','value')))  
