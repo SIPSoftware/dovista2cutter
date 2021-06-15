@@ -798,6 +798,9 @@ parser.add_argument('--sepfn',action='store_true',dest='separate_order_factory_n
                     help='podział zlecenia według factoryNumber')
 
 #parsowanie parametrów wejściowych
+if len(sys.argv)==1:
+    parser.print_help(sys.stderr)
+    sys.exit(1)
 args = parser.parse_args()
 
 #sprawdzenie parametrów wejściowych
