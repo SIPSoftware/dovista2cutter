@@ -1,5 +1,5 @@
 COIFVERSION = "1.0"
-BUILDVERSION = "1.0.1"
+BUILDVERSION = "1.0.2"
 
 import xml.etree.ElementTree as ET
 import csv
@@ -261,6 +261,10 @@ def dovista_drawing2shape(drawing):
         return 140
     elif drawing == '3011.0096-24':
         return 141
+    elif drawing == '3011.0094-18':
+        return 142
+    elif drawing == '3011.0094-19':
+        return 143
     else:
         return 0
 
@@ -719,6 +723,16 @@ def mirrorShape(shape_params):
         elif number == 141:
             nNumber = 140
             nL1 = l - l1
+
+        elif number == 142:
+            nNumber = 143
+            nL1 = l - l2
+            nL2 = l - l1
+
+        elif number == 143:
+            nNumber = 142
+            nL1 = l - l2
+            nL2 = l - l1
 
         else:
             nNumber = 0
