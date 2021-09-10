@@ -8,9 +8,11 @@ import argparse
 import re
 from datetime import date
 from xml.dom import minidom
+import json
 
 from dovista import *
 import shape
+from default_config import default_config
 
 ns = {  'cac':"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
         'cbc':"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
@@ -27,6 +29,8 @@ parser.add_argument('-o',dest='outputfile',
                     help='plik wyjściowy')
 parser.add_argument('--sepfn',action='store_true',dest='separate_order_factory_number',
                     help='podział zlecenia według factoryNumber')
+parser.add_argument('--config-file',dest='config_file_path',
+                    help='ścieżka do pliku konfiguracyjnego')
 
 #parsowanie parametrów wejściowych
 if len(sys.argv)==1:
@@ -45,6 +49,18 @@ if os.path.exists(args.inputfile):
 else:
     print("No such file: "+args.inputfile)
     sys.exit()
+
+#wczytanie konfiguracji skryptu
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+
+if args.config_file_path is None:
+    config_file_path = os.path.join(dname,'dovista.config.json')
+
+config = None
+if os.path.exists(config_file_path):
+    with open(config_file_path, 'r') as f:
+        config = json.load(f)
 
 print('input file: '+input_filename)
 print('output file: '+output_filename)
@@ -141,33 +157,14 @@ for k in orders.keys():
     #pobranie informacji o kliencie z C_BRAND z 1. pozycji 
     customer_brand = getAdditionalPropertiesValue(positions[0],'C_BRAND','name')
 
-    cutter_customer_info = {
-        'RATIONEL': {
-            'cutter_number': 60261,
-            'delivery_adresses':{
-                'T1': '522',
-                'T2': '523',
-                'T3': '524',
-                'T4': '525',
-                'T5': '526',
-                'T7': '527',
-                'M1': '528'
-            }
-        },
-        'VELFAC': {
-            'cutter_number': 60262,
-            'delivery_adresses':{
-                'T1': '529',
-                'T2': '530',
-                'T3': '531',
-                'T4': '532',
-                'T5': '533',
-                'T7': '534',
-                'M1': '535'
-            }
-        }
-    }
+    cutter_customer_info = None
 
+    if config is not None:
+        cutter_customer_info = config['CUTTER_CUSTOMER_INFO']
+    
+    if cutter_customer_info is None:
+        cutter_customer_info = default_config['CUTTER_CUSTOMER_INFO']
+    
     ET.SubElement(xml_order,'deliveryAddress').text = deliveryAddress
     ET.SubElement(xml_order,'customer_name',{'comment':'factory='+factoryNumber}).text = customer_brand
     if customer_brand in cutter_customer_info:
