@@ -56,15 +56,30 @@ dname = os.path.dirname(abspath)
 
 if args.config_file_path is None:
     config_file_path = os.path.join(dname,'dovista.config.json')
+else:
+    config_file_path = args.config_file_path
 
 config = None
 if os.path.exists(config_file_path):
     with open(config_file_path, 'r') as f:
         config = json.load(f)
 
+config_cutter_customer_info = None
+
+if config is not None:
+    config_cutter_customer_info = config['CUTTER_CUSTOMER_INFO']
+    config_convert_type = config['convert_type']
+
+if config_cutter_customer_info is None:
+    config_cutter_customer_info = default_config['CUTTER_CUSTOMER_INFO']
+if config_convert_type is None:
+    config_convert_type = default_config['convert_type']
+
+
 print('input file: '+input_filename)
 print('output file: '+output_filename)
 print('separate_order_factory_number: '+str(args.separate_order_factory_number))
+print('config_convert_type: '+config_convert_type)
 print('-'*50)
 
 #usun plik wyjściowy jeżeli istnieje
@@ -156,23 +171,15 @@ for k in orders.keys():
 
     #pobranie informacji o kliencie z C_BRAND z 1. pozycji 
     customer_brand = getAdditionalPropertiesValue(positions[0],'C_BRAND','name')
-
-    cutter_customer_info = None
-
-    if config is not None:
-        cutter_customer_info = config['CUTTER_CUSTOMER_INFO']
-    
-    if cutter_customer_info is None:
-        cutter_customer_info = default_config['CUTTER_CUSTOMER_INFO']
     
     ET.SubElement(xml_order,'deliveryAddress').text = deliveryAddress
     ET.SubElement(xml_order,'customer_name',{'comment':'factory='+factoryNumber}).text = customer_brand
-    if customer_brand in cutter_customer_info:
-        if 'cutter_number' in cutter_customer_info[customer_brand]:
-            ET.SubElement(xml_order,'customer_cutter_number').text = str(cutter_customer_info[customer_brand]['cutter_number'])
-        if 'delivery_adresses' in cutter_customer_info[customer_brand]:
-            if factoryNumber in cutter_customer_info[customer_brand]['delivery_adresses']:
-                ET.SubElement(xml_order,'delivery_cutter_number').text = str(cutter_customer_info[customer_brand]['delivery_adresses'][factoryNumber])
+    if customer_brand in config_cutter_customer_info:
+        if 'cutter_number' in config_cutter_customer_info[customer_brand]:
+            ET.SubElement(xml_order,'customer_cutter_number').text = str(config_cutter_customer_info[customer_brand]['cutter_number'])
+        if 'delivery_adresses' in config_cutter_customer_info[customer_brand]:
+            if factoryNumber in config_cutter_customer_info[customer_brand]['delivery_adresses']:
+                ET.SubElement(xml_order,'delivery_cutter_number').text = str(config_cutter_customer_info[customer_brand]['delivery_adresses'][factoryNumber])
     orderNumberByCustomer = getNodeValue(root,ns,'./cbc:ID')
     ET.SubElement(xml_order,'numberByCustomer').text = orderNumberByCustomer
     ET.SubElement(xml_order,'order_date').text = date2Cutter(date.today())
@@ -232,8 +239,13 @@ for k in orders.keys():
 
         code = joinStringsWithoutEmpty(elements,'/')
 
-        ET.SubElement(xml_position,'structureCode').text = code
-        ET.SubElement(xml_position,'structureName').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
+        if config_convert_type=='PILK':
+            ET.SubElement(xml_position,'structureName').text = code
+            ET.SubElement(xml_position,'structureCode').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','name')
+        else:
+            ET.SubElement(xml_position,'structureCode').text = code
+            ET.SubElement(xml_position,'structureName').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
+
         ET.SubElement(xml_position,'description').text = str(position['vendor_info']).replace('GLASS_','').replace('-','').replace(' ','').replace('(','').replace(')','')
         ET.SubElement(xml_position,'delivery_date').text = position['delivery_date']
 
