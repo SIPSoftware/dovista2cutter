@@ -24,5 +24,6 @@ default_config = {
                 'M1': '535'
             }
         }
-    }
+    },
+    'convert_type': 'EFF'
 }
