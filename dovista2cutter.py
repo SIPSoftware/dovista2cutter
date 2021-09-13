@@ -68,18 +68,18 @@ config_cutter_customer_info = None
 
 if config is not None:
     config_cutter_customer_info = config['CUTTER_CUSTOMER_INFO']
-    config_convert_type = config['convert_type']
+    # config_convert_type = config['convert_type']
 
 if config_cutter_customer_info is None:
     config_cutter_customer_info = default_config['CUTTER_CUSTOMER_INFO']
-if config_convert_type is None:
-    config_convert_type = default_config['convert_type']
+# if config_convert_type is None:
+#     config_convert_type = default_config['convert_type']
 
 
 print('input file: '+input_filename)
 print('output file: '+output_filename)
 print('separate_order_factory_number: '+str(args.separate_order_factory_number))
-print('config_convert_type: '+config_convert_type)
+# print('config_convert_type: '+config_convert_type)
 print('-'*50)
 
 #usun plik wyjściowy jeżeli istnieje
@@ -117,6 +117,7 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         order_note = ''
         delivery_date = getNodeValue(line_item_node,ns,'./cac:Delivery/cbc:LatestDeliveryDate')
         separate_order_string = delivery_date
+
         if args.separate_order_factory_number:
             if factoryNumber == 'T3':
                 elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
@@ -239,12 +240,8 @@ for k in orders.keys():
 
         code = joinStringsWithoutEmpty(elements,'/')
 
-        if config_convert_type=='PILK':
-            ET.SubElement(xml_position,'structureName').text = code
-            ET.SubElement(xml_position,'structureCode').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','name')
-        else:
-            ET.SubElement(xml_position,'structureCode').text = code
-            ET.SubElement(xml_position,'structureName').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
+        ET.SubElement(xml_position,'structureCode').text = code
+        ET.SubElement(xml_position,'structureName').text = getAdditionalPropertiesValue(position,'C_GLASS_CODE','value')
 
         ET.SubElement(xml_position,'description').text = str(position['vendor_info']).replace('GLASS_','').replace('-','').replace(' ','').replace('(','').replace(')','')
         ET.SubElement(xml_position,'delivery_date').text = position['delivery_date']
