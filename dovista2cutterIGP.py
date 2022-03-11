@@ -139,7 +139,7 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         separate_order_string = separate_order_string + elevation_shape
         # order_note = 'Strefa montażu {0} {1}! NIE ŁĄCZYĆ Z SZBAMI INNYCH STREF DVA !'.format(factoryNumber,elevation_shape)
         delivery_info = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
-        internal_order = f'{delivery_info}_{production_order2}'
+        internal_order = f'({delivery_info}) {production_order2}'
 
         if separate_order_string in orders.keys():
             order_positions = orders[separate_order_string]['positions']
@@ -150,7 +150,7 @@ for order_line_node in root.findall('cac:OrderLine',ns):
                 'delivery_date': delivery_date,
                 'note': order_note,
                 'internal_order': internal_order,
-                'delivery_info': delivery_info,
+                'delivery_info': delivery_info if factoryNumber[0:2]=='T3' else '',
                 'vendor': vendor
             }
             order_positions = orders[separate_order_string]['positions']
@@ -195,7 +195,7 @@ for k in orders.keys():
     customer_brand = getAdditionalPropertiesValue(positions[0],'C_BRAND','value')
     
     xml_address = ET.SubElement(xml_order,'delivery')
-    ET.SubElement(xml_address,'address',{"info":orders[k]['delivery_info']}).text = deliveryAddress
+    ET.SubElement(xml_address,'address',{"info":orders[k]['delivery_info']}).text = deliveryAddress[:-1]
     ET.SubElement(xml_address,'city').text = deliveryCity
     ET.SubElement(xml_order,'customer_name',{'comment':'factory='+factoryNumber}).text = customer_brand
     # if customer_brand in config_cutter_customer_info:
@@ -266,31 +266,71 @@ for k in orders.keys():
 
         xml_product = ET.SubElement(xml_position,'product')
 
-        ET.SubElement(xml_product,'glass1',).text = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','name'))
+        glass1 = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET1','name'))
+        spacer1 = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','name'))
+        gas1 = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER1','name'))
+        glass2 = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','name'))
+        spacer2 = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','name'))
+        gas2 = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER2','name'))
+        glass3 = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','name'))
+        spacer3 = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','name'))
+        gas3 = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER3','name'))
+        glass4 = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET4','name'));
+        spacer4 = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','name'))
+        gas4 = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER4','name'))
+        glass5 = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET5','name'))
+
         frame1_thickness = getAdditionalPropertiesValue(position,'C_GLASS_SPACER1_THICKNESS','name')
         if not frame1_thickness:
             frame1_thickness = "0"
-        ET.SubElement(xml_product,'spacer1',{"thickness": frame1_thickness}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','name'))
-        ET.SubElement(xml_product,'gas1',).text = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER1','name'))
-        ET.SubElement(xml_product,'glass2',).text = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET2','name'))
         frame2_thickness = getAdditionalPropertiesValue(position,'C_GLASS_SPACER2_THICKNESS','name')
         if not frame2_thickness:
             frame2_thickness = "0"
-        ET.SubElement(xml_product,'spacer2',{"thickness": frame2_thickness}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','name'))
-        ET.SubElement(xml_product,'gas2').text = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER2','name'))
-        ET.SubElement(xml_product,'glass3').text = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET3','name'))
         frame3_thickness = getAdditionalPropertiesValue(position,'C_GLASS_SPACER3_THICKNESS','name')
         if not frame3_thickness:
             frame3_thickness = "0"
-        ET.SubElement(xml_product,'spacer3',{"thickness": frame3_thickness}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','name'))
-        ET.SubElement(xml_product,'gas3').text = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER1','name'))
-        ET.SubElement(xml_product,'glass4').text = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET4','name'))
         frame4_thickness = getAdditionalPropertiesValue(position,'C_GLASS_SPACER4_THICKNESS','name')
         if not frame4_thickness:
             frame4_thickness = "0"
-        ET.SubElement(xml_product,'spacer4',{"thickness": frame4_thickness}).text = str(getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','name'))
-        ET.SubElement(xml_product,'gas4').text = str(getAdditionalPropertiesValue(position,'C_GLASS_AIR_SPACER4','name'))
-        ET.SubElement(xml_product,'glass5').text = str(getAdditionalPropertiesValue(position,'C_GLASS_SHEET5','name'))
+
+        if glass1!='' and glass1!='0':
+            ET.SubElement(xml_product,'glass1',).text = glass1
+        if spacer1!='' and spacer1!='0':
+            ET.SubElement(xml_product,'spacer1',{"thickness": frame1_thickness}).text = spacer1
+
+        if gas1!='' and gas1!='0':
+            ET.SubElement(xml_product,'gas1',).text = gas1
+
+        if glass2!='' and glass2!='0':
+            ET.SubElement(xml_product,'glass2',).text = glass2
+
+        if spacer2!='' and spacer2 != '0':
+            ET.SubElement(xml_product,'spacer2',{"thickness": frame2_thickness}).text = spacer2
+
+        if gas2!='' and gas2 != '0':
+            ET.SubElement(xml_product,'gas2').text = gas2
+
+        if glass3 != '' and glass3 != '0':
+            ET.SubElement(xml_product,'glass3').text = glass3
+
+        if spacer3!='' and spacer3 != '0':
+            ET.SubElement(xml_product,'spacer3',{"thickness": frame3_thickness}).text = spacer3
+
+        if gas3!='' and gas3 != '0':
+            ET.SubElement(xml_product,'gas3').text = gas3
+
+        if glass4!='' and glass4 !='0':
+            ET.SubElement(xml_product,'glass4').text = glass4
+
+        if spacer4!='' and spacer4 !='0':
+            ET.SubElement(xml_product,'spacer4',{"thickness": frame4_thickness}).text = spacer4
+
+        if gas4!='' and gas4 != '0':
+            ET.SubElement(xml_product,'gas4').text = gas4
+
+        if glass5!='' and glass5 != '0':
+            ET.SubElement(xml_product,'glass5').text = glass5
+        
         # ET.SubElement(xml_position,'description').text = str(position['vendor_info']).replace('GLASS_','').replace('-','').replace(' ','').replace('(','').replace(')','')
         ET.SubElement(xml_position,'description').text = str(position['vendor_info'])
         ET.SubElement(xml_position,'delivery_date').text = position['delivery_date']
