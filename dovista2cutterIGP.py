@@ -124,22 +124,16 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         elevation_shape = ''
         platform = ''
         internal_order = ''
-        # if args.separate_order_factory_number:
-        #     if factoryNumber == 'T3':
-        #         platform = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_PLATFORM','value')
-        #         elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
-        #         separate_order_string = separate_order_string + elevation_shape
-        #         order_note = 'Strefa montażu {0} {1}! NIE ŁĄCZYĆ Z SZBAMI INNYCH STREF DVA !'.format(factoryNumber,elevation_shape)
-        #         internal_order = f'{factoryNumber}_{elevation_shape[:2]}_{platform[:2]}_{production_order2}'
-        #     else:
-        #         internal_order = f'{factoryNumber}_{production_order2}'
+        delivery_info = ''
         platform = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_PLATFORM','value')
         elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
         vendor = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_VENDOR','value')
-        separate_order_string = separate_order_string + elevation_shape
-        # order_note = 'Strefa montażu {0} {1}! NIE ŁĄCZYĆ Z SZBAMI INNYCH STREF DVA !'.format(factoryNumber,elevation_shape)
-        delivery_info = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
-        internal_order = f'({delivery_info}) {production_order2}'
+        dva_order_string = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
+        if args.separate_order_factory_number:
+            if factoryNumber == 'T3':
+                delivery_info = dva_order_string
+                separate_order_string = separate_order_string + elevation_shape
+        internal_order = f'({dva_order_string}) {production_order2}'
 
         if separate_order_string in orders.keys():
             order_positions = orders[separate_order_string]['positions']
@@ -150,7 +144,7 @@ for order_line_node in root.findall('cac:OrderLine',ns):
                 'delivery_date': delivery_date,
                 'note': order_note,
                 'internal_order': internal_order,
-                'delivery_info': delivery_info if factoryNumber[0:2]=='T3' else '',
+                'delivery_info': delivery_info,
                 'vendor': vendor
             }
             order_positions = orders[separate_order_string]['positions']
