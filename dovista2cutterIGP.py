@@ -27,8 +27,8 @@ parser.add_argument('-i',dest='inputfile',
                     help='plik wejściowy')
 parser.add_argument('-o',dest='outputfile',
                     help='plik wyjściowy')
-parser.add_argument('--sepfn',action='store_true',dest='separate_order_factory_number',
-                    help='podział zlecenia według factoryNumber')
+parser.add_argument('--sepfn', action="extend", nargs="+", type=str, dest='separate_order_factory_number',
+                    help='lista factoryNumber dla których będzie podział zlecenia ze wzgledu na Elevation Shape')
 parser.add_argument('--config-file',dest='config_file_path',
                     help='ścieżka do pliku konfiguracyjnego')
 
@@ -125,10 +125,9 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
         vendor = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_VENDOR','value')
         dva_order_string = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
-        if args.separate_order_factory_number:
-            if factoryNumber == 'T3':
-                delivery_info = dva_order_string
-                separate_order_string = separate_order_string + elevation_shape
+        if factoryNumber in args.separate_order_factory_number:
+            delivery_info = dva_order_string
+            separate_order_string = separate_order_string + elevation_shape
         internal_order = f'({dva_order_string}) {production_order2}'
 
         if separate_order_string in orders.keys():
