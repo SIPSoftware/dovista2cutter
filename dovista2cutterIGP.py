@@ -73,10 +73,6 @@ print('output file: '+output_filename)
 print('separate_order_factory_number: '+str(args.separate_order_factory_number))
 print('-'*50)
 
-#usun plik wyjściowy jeżeli istnieje
-# if os.path.exists(output_filename):
-    # os.remove(output_filename)
-
 #parsowanie pliku XML
 tree = ET.parse(input_filename)
 root = tree.getroot()
@@ -172,15 +168,12 @@ ET.SubElement(xml_import,'original_filename').text = os.path.basename(input_file
 
 
 #generowanie pozycji w pliku wyjściowym
-# print(orders.keys())
 for k in orders.keys():
 #generowanie gałezi <order>
     positions = orders[k]['positions']
     xml_order = ET.SubElement(xml_import,'order',attrib={"comment":k})
 
     #generowanie zlec_typ dla zlecenia 
-    # ET.SubElement(xml_order,'additional_info',attrib={"type": "301", "comment":"OrderConfirmation: BuyerCustomerParty/ID"}).text = getNodeValue(root,ns,'./cac:BuyerCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID')
-    # ET.SubElement(xml_order,'additional_info',attrib={"type": "302", "comment":"OrderConfirmation: BuyerCustomerParty/CompanyID"}).text = getNodeValue(root,ns,'./cac:BuyerCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID')
     ET.SubElement(xml_order,'additional_info',attrib={"type": "61", "comment":"C_VENDOR"}).text = orders[k]['vendor']
 
     #pobieranie danych z nagłówka 
@@ -192,12 +185,6 @@ for k in orders.keys():
     ET.SubElement(xml_address,'address',{"info":orders[k]['delivery_info']}).text = deliveryAddress[:-1]
     ET.SubElement(xml_address,'city').text = deliveryCity
     ET.SubElement(xml_order,'customer_name',{'comment':'factory='+factoryNumber}).text = customer_brand
-    # if customer_brand in config_cutter_customer_info:
-    #     if 'cutter_number' in config_cutter_customer_info[customer_brand]:
-    #         ET.SubElement(xml_order,'customer_cutter_number').text = str(config_cutter_customer_info[customer_brand]['cutter_number'])
-    #     if 'delivery_adresses' in config_cutter_customer_info[customer_brand]:
-    #         if factoryNumber in config_cutter_customer_info[customer_brand]['delivery_adresses']:
-    #             ET.SubElement(xml_order,'delivery_cutter_number').text = str(config_cutter_customer_info[customer_brand]['delivery_adresses'][factoryNumber])
     orderNumberByCustomer = getNodeValue(root,ns,'./cbc:ID')
     ET.SubElement(xml_order,'number_by_customer').text = orderNumberByCustomer
     ET.SubElement(xml_order,'order_date').text = date2Cutter(date.today())
@@ -351,8 +338,6 @@ for k in orders.keys():
             xml_shape = ET.SubElement(xml_position,'shape',{'desc':shape_drawing})
             shape_number = dovista_drawing2shape(shape_drawing)
             if shape_number>0:
-                #ET.SubElement(xml_shape,'catalogue',).text = '3'
-                #ET.SubElement(xml_shape,'number').text = str(shape_number)
                 shape_params = {
                     'catalogue': 3,
                     'number': shape_number,
@@ -396,9 +381,6 @@ for k in orders.keys():
             chamber_count = 3
         if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value')!=''):
             chamber_count = 4
-        # gb_elevation = 0
-        # if 'C_GLZBAR_G_ELEV' in position['additional_properties']:
-        #     gb_elevation = position['additional_properties']['C_GLZBAR_G_ELEV']['name']
         if len(getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W1','value'))>0:
             xml_gb = ET.SubElement(xml_position,'custom_glazing_bar')
             for frameno in range(1,chamber_count+1):
@@ -494,7 +476,6 @@ for k in orders.keys():
                     'h8' : 'C_GLASS_VAR_GH8', 
                     'h9' : 'C_GLASS_VAR_GH9'
                 }
-                # gb_colour = getAdditionalPropertiesValue(position,'C_GLASS_SPACER'+str(frameno)+'_COLOUR','value')
                 for k in d.keys():
                     value = getAdditionalPropertiesValue(position,d[k],'name')
                     if value != '' and  value != '00':
@@ -517,13 +498,6 @@ for k in orders.keys():
         ET.SubElement(xml_position,'additional_info',attrib={"type": "228", "comment":"C_GLZBAR_G_VAR"}).text = str(getAdditionalPropertiesValue(position,'C_GLZBAR_G_VAR','value'))
         ET.SubElement(xml_position,'additional_info',attrib={"type": "261", "comment":"C_PLATFORM.value"}).text = str(getAdditionalPropertiesValue(position,'C_PLATFORM','value'))
         ET.SubElement(xml_position,'additional_info',attrib={"type": "906", "comment":"C_ELEVATION_SHAPE.value"}).text = str(getAdditionalPropertiesValue(position,'C_ELEVATION_SHAPE','value')).upper()
-
-
-        # ET.SubElement(xml_position,'additional_info',attrib={"type": "311", "comment":"Label: DVA Drawing 1"}).text = getAdditionalPropertiesValue(position,'C_DRAWING','value')
-        # ET.SubElement(xml_position,'additional_info',attrib={"type": "312", "comment":"Label: DVA Glazing bar elev. glass"}).text = getAdditionalPropertiesValue(position,'C_GLZBAR_G_ELEV','name')
-        # ET.SubElement(xml_position,'additional_info',attrib={"type": "313", "comment":"Label: DVA Glazing bar var. glass"}).text = getAdditionalPropertiesValue(position,'C_GLZBAR_G_VAR','name')
-        #14 Emalit colour
-        # ET.SubElement(xml_position,'additional_info',attrib={"type": "314"}).text = ''
 
 # koniec iteracji po pozycjach
 
