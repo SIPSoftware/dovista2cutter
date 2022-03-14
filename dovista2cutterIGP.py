@@ -125,7 +125,7 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
         vendor = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_VENDOR','value')
         dva_order_string = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
-        if factoryNumber in args.separate_order_factory_number:
+        if args.separate_order_factory_number and factoryNumber in args.separate_order_factory_number:
             delivery_info = dva_order_string
             separate_order_string = separate_order_string + elevation_shape
         internal_order = f'({dva_order_string}) {production_order2}'
