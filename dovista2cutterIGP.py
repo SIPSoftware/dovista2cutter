@@ -124,7 +124,8 @@ for order_line_node in root.findall('cac:OrderLine',ns):
         platform = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_PLATFORM','value')
         elevation_shape = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_ELEVATION_SHAPE','value')
         vendor = getAdditionalPropertiesValue({'additional_properties': additional_properties},'C_VENDOR','value')
-        dva_order_string = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
+        # dva_order_string = '_'.join([factoryNumber[0:2],elevation_shape[0:2],platform[0:2]]).upper()
+        dva_order_string = '_'.join([factoryNumber[0:2],platform[0:2]]).upper()
         if args.separate_order_factory_number and factoryNumber in args.separate_order_factory_number:
             delivery_info = dva_order_string
             separate_order_string = separate_order_string + elevation_shape
@@ -372,14 +373,15 @@ for k in orders.keys():
         # --- END --- obsługa kształtów DOVISTA
 
         # --- BEGIN --- obsługa szprosów dowolnych
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER1','value')!=''):
+        if(spacer1!='' and spacer1!='0'):
             chamber_count = 1
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER2','value')!=''):
+        if(spacer2!='' and spacer2!='0'):
             chamber_count = 2
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER3','value')!=''):
+        if(spacer3!='' and spacer3!='0'):
             chamber_count = 3
-        if (getAdditionalPropertiesValue(position,'C_GLASS_SPACER4','value')!=''):
+        if(spacer4!='' and spacer4!='0'):
             chamber_count = 4
+
         if len(getAdditionalPropertiesValue(position,'C_GLASS_SEQ_W1','value'))>0:
             xml_gb = ET.SubElement(xml_position,'custom_glazing_bar')
             for frameno in range(1,chamber_count+1):
