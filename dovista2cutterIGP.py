@@ -211,16 +211,21 @@ for k in orders.keys():
 
     # pobieranie danych z nagłówka
 
-    # pobranie informacji o kliencie z C_BRAND z 1. pozycji
+    # pobranie informacji o kliencie na naklejce z C_BRAND z 1. pozycji
     customer_brand = getAdditionalPropertiesValue(
         positions[0], 'C_BRAND', 'value')
+
+    if factoryNumber in {'T1', 'T2', 'T3', 'T4'}:
+        customer_name = 'RATIONEL'
+    else:
+        customer_name = 'VELFAC'
 
     xml_address = ET.SubElement(xml_order, 'delivery')
     ET.SubElement(xml_address, 'address', {
                   "info": orders[k]['delivery_info']}).text = deliveryAddress[:-1]
     ET.SubElement(xml_address, 'city').text = deliveryCity
     ET.SubElement(xml_order, 'customer_name', {
-                  'comment': 'factory='+factoryNumber}).text = customer_brand
+                  'comment': 'factory='+factoryNumber}).text = customer_name
     orderNumberByCustomer = getNodeValue(root, ns, './cbc:ID')
     ET.SubElement(xml_order, 'number_by_customer').text = orderNumberByCustomer
     ET.SubElement(xml_order, 'order_date').text = date2Cutter(date.today())
