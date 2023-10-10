@@ -611,7 +611,7 @@ for k in orders.keys():
         ET.SubElement(xml_position, 'additional_info', attrib={
                       "type": "176", "comment": "Customer"}).text = customer_brand
         ET.SubElement(xml_position, 'additional_info', attrib={
-                      "type": "207", "comment": "Glass Long Text"}).text = glass_long_text
+                      "type": "207", "comment": "Glass Long Text"}).text = getAdditionalPropertiesValue({'additional_properties': position['additional_properties2']}, 'Glass Long Text', 'value')
         ET.SubElement(xml_position, 'additional_info', attrib={
                       "type": "211", "comment": "Delivery address"}).text = deliveryAddress
         ET.SubElement(xml_position, 'additional_info', attrib={"type": "226", "comment": "C_DRAWING"}).text = str(
