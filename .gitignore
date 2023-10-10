@@ -2,6 +2,7 @@ __pycache__
 *.csv
 *.xml
 *.spec
+*.pdf
 build/
 dist/
 mach/
