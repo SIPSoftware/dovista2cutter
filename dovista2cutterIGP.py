@@ -122,6 +122,13 @@ for order_line_node in root.findall('cac:OrderLine', ns):
             }
         # podział pozycje na różne zlecenia w zależności od daty dostawy i innych informacji
         order_note = ''
+        order_note1 = ''
+        order_note2 = ''
+        order_note3 = ''
+        if factoryNumber in {'M1','M2'}:
+            order_note = factoryNumber[0:2]
+            order_note2 = factoryNumber[0:2]
+
         delivery_date = getNodeValue(
             line_item_node, ns, './cac:Delivery/cbc:LatestDeliveryDate')
         separate_order_string = delivery_date
@@ -168,6 +175,9 @@ for order_line_node in root.findall('cac:OrderLine', ns):
                 'positions': [],
                 'delivery_date': delivery_date,
                 'note': order_note,
+                'note1': order_note1,
+                'note2': order_note2,
+                'note3': order_note3,
                 'internal_order': internal_order,
                 'delivery_info': delivery_info,
                 'vendor': vendor
@@ -217,6 +227,8 @@ for k in orders.keys():
 
     if factoryNumber in {'T1', 'T2', 'T3', 'T4'}:
         customer_name = 'RATIONEL'
+    elif factoryNumber in {'M1','M2'}:
+        customer_name = 'UABDOVISTA'
     else:
         customer_name = 'VELFAC'
 
@@ -230,6 +242,9 @@ for k in orders.keys():
     ET.SubElement(xml_order, 'number_by_customer').text = orderNumberByCustomer
     ET.SubElement(xml_order, 'order_date').text = date2Cutter(date.today())
     ET.SubElement(xml_order, 'notes').text = orders[k]['note']
+    ET.SubElement(xml_order, 'notes1').text = orders[k]['note1']
+    ET.SubElement(xml_order, 'notes2').text = orders[k]['note2']
+    ET.SubElement(xml_order, 'notes3').text = orders[k]['note3']
     ET.SubElement(
         xml_order, 'internal_number').text = orders[k]['internal_order']
     ET.SubElement(xml_order, 'end_user_name2').text = orders[k]['vendor']
