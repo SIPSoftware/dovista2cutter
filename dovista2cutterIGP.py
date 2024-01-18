@@ -499,7 +499,8 @@ for k in orders.keys():
         if(spacer4 != '' and spacer4 != '0'):
             chamber_count = 4
 
-        if len(getAdditionalPropertiesValue(position, 'C_GLASS_SEQ_W1', 'value')) > 0:
+        isGlazingBar = (len(getAdditionalPropertiesValue(position, 'C_GLASS_SEQ_W1', 'value')) > 0) or ((getAdditionalPropertiesValue(position, 'C_GLZBAR_G_VAR ', 'value'))!='None')
+        if isGlazingBar:
             xml_gb = ET.SubElement(xml_position, 'custom_glazing_bar')
             for frameno in range(1, chamber_count+1):
                 xml_gb_frame = ET.SubElement(
