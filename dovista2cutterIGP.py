@@ -283,9 +283,10 @@ for k in orders.keys():
         customer_name = "VELFAC"
 
     xml_address = ET.SubElement(xml_order, "delivery")
-    ET.SubElement(
-        xml_address, "address", {"info": orders[k]["delivery_info"]}
-    ).text = deliveryAddress[:-1]
+    ET.SubElement(xml_address, "address", {"info": orders[k]["delivery_info"]}).text = (
+        deliveryAddress[:-1]
+    )
+
     ET.SubElement(xml_address, "city").text = deliveryCity
     ET.SubElement(
         xml_order, "customer_name", {"comment": "factory=" + factoryNumber}
@@ -360,12 +361,12 @@ for k in orders.keys():
         ET.SubElement(xml_position, "structure_name").text = joinStringsWithoutEmpty(
             elements, "/"
         )
-        ET.SubElement(
-            xml_position, "structure_code"
-        ).text = getAdditionalPropertiesValue(position, "C_GLASS_CODE", "name")
-        ET.SubElement(
-            xml_position, "structure_code2"
-        ).text = getAdditionalPropertiesValue(position, "C_GLASS_CODE", "value")
+        ET.SubElement(xml_position, "structure_code").text = (
+            getAdditionalPropertiesValue(position, "C_GLASS_CODE", "name")
+        )
+        ET.SubElement(xml_position, "structure_code2").text = (
+            getAdditionalPropertiesValue(position, "C_GLASS_CODE", "value")
+        )
 
         xml_product = ET.SubElement(xml_position, "product")
 
@@ -472,12 +473,15 @@ for k in orders.keys():
         ET.SubElement(xml_position, "delivery_date").text = position["delivery_date"]
         # ET.SubElement(xml_position,'key').text = str(position['production_order2'])+str(position['delivery_date'])+str(position['elevation_shape'])
         ET.SubElement(xml_position, "key").text = str(position["vendor_info"])
-        ET.SubElement(
-            xml_position, "additional_description"
-        ).text = orderNumberByCustomer + str(position["order_position"])
+        ET.SubElement(xml_position, "additional_description").text = (
+            orderNumberByCustomer + str(position["order_position"])
+        )
 
         # --- BEGIN --- obsługa kształtów DOVISTA
         shape_drawing = getAdditionalPropertiesValue(position, "C_DRAWING", "value")
+        shape_elevation = getAdditionalPropertiesValue(
+            position, "C_ELEVATION_SHAPE", "name"
+        )
         shape_params_def = {
             "l": "C_W",
             "l1": "C_W1",
@@ -491,7 +495,7 @@ for k in orders.keys():
             "r3": "C_RADIUS3",
         }
 
-        if shape_drawing != "":
+        if shape_elevation != "SQ":
             xml_shape = ET.SubElement(xml_position, "shape", {"desc": shape_drawing})
             shape_number = dovista_drawing2shape(shape_drawing)
             if shape_number > 0:
@@ -551,130 +555,146 @@ for k in orders.keys():
         if spacer4 != "" and spacer4 != "0":
             chamber_count = 4
 
-        isGlazingBar = (
-            len(getAdditionalPropertiesValue(position, "C_GLASS_SEQ_W1", "value")) > 0
-        ) or (
-            (getAdditionalPropertiesValue(position, "C_GLZBAR_G_VAR ", "value"))
-            != "None"
+        isGlazingBar = not (
+            getAdditionalPropertiesValue(position, "C_GLZBAR_G_VAR", "name") == "00"
+            and getAdditionalPropertiesValue(position, "C_GLZBAR_G_ELEV", "name")
+            == "G1"
         )
         if isGlazingBar:
-            xml_gb = ET.SubElement(xml_position, "custom_glazing_bar")
-            for frameno in range(1, chamber_count + 1):
-                xml_gb_frame = ET.SubElement(xml_gb, "frame", {"no": str(frameno)})
+            c_glass_seq_w1 = getAdditionalPropertiesValue(
+                position, "C_GLASS_SEQ_W1", "value"
+            )
+            isGridGlazingBar = len(c_glass_seq_w1) > 0 and c_glass_seq_w1 != "0"
+            if isGridGlazingBar:
+                xml_gb = ET.SubElement(xml_position, "custom_glazing_bar")
+                for frameno in range(1, chamber_count + 1):
+                    xml_gb_frame = ET.SubElement(xml_gb, "frame", {"no": str(frameno)})
 
-                # ET.SubElement(xml_gb_frame,'elevation').text = gb_elevation
+                    # ET.SubElement(xml_gb_frame,'elevation').text = gb_elevation
 
-                xml_gb_frame_dim = ET.SubElement(xml_gb_frame, "dimmensions")
-                d = {
-                    "w1": "C_GLASS_GW9",
-                    "w2": "C_GLASS_GW8",
-                    "w3": "C_GLASS_GW7",
-                    "w4": "C_GLASS_GW6",
-                    "w5": "C_GLASS_GW5",
-                    "w6": "C_GLASS_GW4",
-                    "w7": "C_GLASS_GW3",
-                    "w8": "C_GLASS_GW2",
-                    "w9": "C_GLASS_GW1",
-                    "h9": "C_GLASS_GH9",
-                    "h8": "C_GLASS_GH8",
-                    "h7": "C_GLASS_GH7",
-                    "h6": "C_GLASS_GH6",
-                    "h5": "C_GLASS_GH5",
-                    "h4": "C_GLASS_GH4",
-                    "h3": "C_GLASS_GH3",
-                    "h2": "C_GLASS_GH2",
-                    "h1": "C_GLASS_GH1",
-                }
+                    xml_gb_frame_dim = ET.SubElement(xml_gb_frame, "dimmensions")
+                    d = {
+                        "w1": "C_GLASS_GW9",
+                        "w2": "C_GLASS_GW8",
+                        "w3": "C_GLASS_GW7",
+                        "w4": "C_GLASS_GW6",
+                        "w5": "C_GLASS_GW5",
+                        "w6": "C_GLASS_GW4",
+                        "w7": "C_GLASS_GW3",
+                        "w8": "C_GLASS_GW2",
+                        "w9": "C_GLASS_GW1",
+                        "h9": "C_GLASS_GH9",
+                        "h8": "C_GLASS_GH8",
+                        "h7": "C_GLASS_GH7",
+                        "h6": "C_GLASS_GH6",
+                        "h5": "C_GLASS_GH5",
+                        "h4": "C_GLASS_GH4",
+                        "h3": "C_GLASS_GH3",
+                        "h2": "C_GLASS_GH2",
+                        "h1": "C_GLASS_GH1",
+                    }
 
-                bar_no_w = 0
-                # analiza listew pionowych
-                width = dovista_int2int(
-                    getAdditionalPropertiesValue(position, "C_GLASS_WIDTH", "value")
-                )
-                for k in d.keys():
-                    value = dovista_float2int(
-                        getAdditionalPropertiesValue(position, d[k], "value")
+                    bar_no_w = 0
+                    # analiza listew pionowych
+                    width = dovista_int2int(
+                        getAdditionalPropertiesValue(position, "C_GLASS_WIDTH", "value")
                     )
-                    if value > 0 and k[0] == "w":
-                        value = int(width) - int(value)
-                        bar_no_w = bar_no_w + 1
-                        ET.SubElement(
-                            xml_gb_frame_dim, k[0] + str(bar_no_w)
-                        ).text = str(value)
-                # analiza listew poziomych (od góry)
-                bar_no_h = 0
-                height = dovista_int2int(
-                    getAdditionalPropertiesValue(position, "C_GLASS_HEIGHT", "value")
-                )
-                for k in d.keys():
-                    value = dovista_float2int(
-                        getAdditionalPropertiesValue(position, d[k], "value")
+                    for k in d.keys():
+                        value = dovista_float2int(
+                            getAdditionalPropertiesValue(position, d[k], "value")
+                        )
+                        if value > 0 and k[0] == "w":
+                            value = int(width) - int(value)
+                            bar_no_w = bar_no_w + 1
+                            ET.SubElement(
+                                xml_gb_frame_dim, k[0] + str(bar_no_w)
+                            ).text = str(value)
+                    # analiza listew poziomych (od góry)
+                    bar_no_h = 0
+                    height = dovista_int2int(
+                        getAdditionalPropertiesValue(
+                            position, "C_GLASS_HEIGHT", "value"
+                        )
                     )
-                    if value > 0 and k[0] == "h":
-                        value = int(height) - int(value)
-                        bar_no_h = bar_no_h + 1
-                        ET.SubElement(
-                            xml_gb_frame_dim, k[0] + str(bar_no_h)
-                        ).text = str(value)
+                    for k in d.keys():
+                        value = dovista_float2int(
+                            getAdditionalPropertiesValue(position, d[k], "value")
+                        )
+                        if value > 0 and k[0] == "h":
+                            value = int(height) - int(value)
+                            bar_no_h = bar_no_h + 1
+                            ET.SubElement(
+                                xml_gb_frame_dim, k[0] + str(bar_no_h)
+                            ).text = str(value)
 
-                xml_gb_frame_seq = ET.SubElement(xml_gb_frame, "sequence")
-                d = {
-                    "w1": "C_GLASS_SEQ_W1",
-                    "w2": "C_GLASS_SEQ_W2",
-                    "w3": "C_GLASS_SEQ_W3",
-                    "w4": "C_GLASS_SEQ_W4",
-                    "w5": "C_GLASS_SEQ_W5",
-                    "w6": "C_GLASS_SEQ_W6",
-                    "w7": "C_GLASS_SEQ_W7",
-                    "w8": "C_GLASS_SEQ_W8",
-                    "w9": "C_GLASS_SEQ_W9",
-                    "h1": "C_GLASS_SEQ_H1",
-                    "h2": "C_GLASS_SEQ_H2",
-                    "h3": "C_GLASS_SEQ_H3",
-                    "h4": "C_GLASS_SEQ_H4",
-                    "h5": "C_GLASS_SEQ_H5",
-                    "h6": "C_GLASS_SEQ_H6",
-                    "h7": "C_GLASS_SEQ_H7",
-                    "h8": "C_GLASS_SEQ_H8",
-                    "h9": "C_GLASS_SEQ_H9",
-                }
-                for k in d.keys():
-                    value = getAdditionalPropertiesValue(position, d[k], "value")
-                    if k[0] == "w":
-                        # wycięcie nie potrzebnych zer
-                        value = value[0 : bar_no_h + 1]
-                        # odwrócenie stringu - sekwencja belek jest podana od góry
-                        value = value[::-1]
-                    if k[0] == "h":
-                        value = value[0 : bar_no_w + 1]
-                    if value != "" and value != "0":
-                        ET.SubElement(xml_gb_frame_seq, k).text = value
+                    xml_gb_frame_seq = ET.SubElement(xml_gb_frame, "sequence")
+                    d = {
+                        "w1": "C_GLASS_SEQ_W1",
+                        "w2": "C_GLASS_SEQ_W2",
+                        "w3": "C_GLASS_SEQ_W3",
+                        "w4": "C_GLASS_SEQ_W4",
+                        "w5": "C_GLASS_SEQ_W5",
+                        "w6": "C_GLASS_SEQ_W6",
+                        "w7": "C_GLASS_SEQ_W7",
+                        "w8": "C_GLASS_SEQ_W8",
+                        "w9": "C_GLASS_SEQ_W9",
+                        "h1": "C_GLASS_SEQ_H1",
+                        "h2": "C_GLASS_SEQ_H2",
+                        "h3": "C_GLASS_SEQ_H3",
+                        "h4": "C_GLASS_SEQ_H4",
+                        "h5": "C_GLASS_SEQ_H5",
+                        "h6": "C_GLASS_SEQ_H6",
+                        "h7": "C_GLASS_SEQ_H7",
+                        "h8": "C_GLASS_SEQ_H8",
+                        "h9": "C_GLASS_SEQ_H9",
+                    }
+                    for k in d.keys():
+                        value = getAdditionalPropertiesValue(position, d[k], "value")
+                        if k[0] == "w":
+                            # wycięcie nie potrzebnych zer
+                            value = value[0 : bar_no_h + 1]
+                            # odwrócenie stringu - sekwencja belek jest podana od góry
+                            value = value[::-1]
+                        if k[0] == "h":
+                            value = value[0 : bar_no_w + 1]
+                        if value != "" and value != "0":
+                            ET.SubElement(xml_gb_frame_seq, k).text = value
 
-                xml_gb_frame_mat = ET.SubElement(xml_gb_frame, "material")
-                d = {
-                    "w1": "C_GLASS_VAR_GW1",
-                    "w2": "C_GLASS_VAR_GW2",
-                    "w3": "C_GLASS_VAR_GW3",
-                    "w4": "C_GLASS_VAR_GW4",
-                    "w5": "C_GLASS_VAR_GW5",
-                    "w6": "C_GLASS_VAR_GW6",
-                    "w7": "C_GLASS_VAR_GW7",
-                    "w8": "C_GLASS_VAR_GW8",
-                    "w9": "C_GLASS_VAR_GW9",
-                    "h1": "C_GLASS_VAR_GH1",
-                    "h2": "C_GLASS_VAR_GH2",
-                    "h3": "C_GLASS_VAR_GH3",
-                    "h4": "C_GLASS_VAR_GH4",
-                    "h5": "C_GLASS_VAR_GH5",
-                    "h6": "C_GLASS_VAR_GH6",
-                    "h7": "C_GLASS_VAR_GH7",
-                    "h8": "C_GLASS_VAR_GH8",
-                    "h9": "C_GLASS_VAR_GH9",
-                }
-                for k in d.keys():
-                    value = getAdditionalPropertiesValue(position, d[k], "name")
-                    if value != "" and value != "00":
-                        ET.SubElement(xml_gb_frame_mat, k).text = value
+                    xml_gb_frame_mat = ET.SubElement(xml_gb_frame, "material")
+                    d = {
+                        "w1": "C_GLASS_VAR_GW1",
+                        "w2": "C_GLASS_VAR_GW2",
+                        "w3": "C_GLASS_VAR_GW3",
+                        "w4": "C_GLASS_VAR_GW4",
+                        "w5": "C_GLASS_VAR_GW5",
+                        "w6": "C_GLASS_VAR_GW6",
+                        "w7": "C_GLASS_VAR_GW7",
+                        "w8": "C_GLASS_VAR_GW8",
+                        "w9": "C_GLASS_VAR_GW9",
+                        "h1": "C_GLASS_VAR_GH1",
+                        "h2": "C_GLASS_VAR_GH2",
+                        "h3": "C_GLASS_VAR_GH3",
+                        "h4": "C_GLASS_VAR_GH4",
+                        "h5": "C_GLASS_VAR_GH5",
+                        "h6": "C_GLASS_VAR_GH6",
+                        "h7": "C_GLASS_VAR_GH7",
+                        "h8": "C_GLASS_VAR_GH8",
+                        "h9": "C_GLASS_VAR_GH9",
+                    }
+                    for k in d.keys():
+                        value = getAdditionalPropertiesValue(position, d[k], "name")
+                        if value != "" and value != "00":
+                            ET.SubElement(xml_gb_frame_mat, k).text = value
+            # other than grid glazingbar
+            else:
+                xml_gb = ET.SubElement(xml_position, "custom_glazing_bar")
+                for frameno in range(1, chamber_count + 1):
+                    xml_gb_frame = ET.SubElement(xml_gb, "frame", {"no": str(frameno)})
+                    xml_gb_frame_mat = ET.SubElement(xml_gb_frame, "material")
+                    material = getAdditionalPropertiesValue(
+                        position, "C_GLZBAR_G_VAR", "name"
+                    )
+                    ET.SubElement(xml_gb_frame_mat, "w1").text = material
 
         # --- END --- obsługa szprosów dowolnych
 
