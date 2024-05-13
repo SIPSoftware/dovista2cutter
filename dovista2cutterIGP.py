@@ -761,6 +761,11 @@ for k in orders.keys():
         ET.SubElement(
             xml_position,
             "additional_info",
+            attrib={"type": "229", "comment": "C_EMALIT_COLOUR"},
+        ).text = str(getAdditionalPropertiesValue(position, "C_EMALIT_COLOUR", "value"))
+        ET.SubElement(
+            xml_position,
+            "additional_info",
             attrib={"type": "261", "comment": "C_PLATFORM.value"},
         ).text = str(getAdditionalPropertiesValue(position, "C_PLATFORM", "value"))
         ET.SubElement(
