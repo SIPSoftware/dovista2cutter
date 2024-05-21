@@ -564,7 +564,12 @@ for k in orders.keys():
             c_glass_seq_w1 = getAdditionalPropertiesValue(
                 position, "C_GLASS_SEQ_W1", "value"
             )
-            isGridGlazingBar = len(c_glass_seq_w1) > 0 and c_glass_seq_w1 != "0"
+            c_glass_seq_h1 = getAdditionalPropertiesValue(
+                position, "C_GLASS_SEQ_H1", "value"
+            )
+            isGridGlazingBar = (len(c_glass_seq_w1) > 0 and c_glass_seq_w1 != "0") or (
+                len(c_glass_seq_h1) > 0 and c_glass_seq_h1 != "0"
+            )
             if isGridGlazingBar:
                 xml_gb = ET.SubElement(xml_position, "custom_glazing_bar")
                 for frameno in range(1, chamber_count + 1):
