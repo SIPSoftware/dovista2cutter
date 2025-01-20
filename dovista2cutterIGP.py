@@ -555,11 +555,10 @@ for k in orders.keys():
         if spacer4 != "" and spacer4 != "0":
             chamber_count = 4
 
-        isGlazingBar = not (
-            getAdditionalPropertiesValue(position, "C_GLZBAR_G_VAR", "name") == "00"
-            and getAdditionalPropertiesValue(position, "C_GLZBAR_G_ELEV", "name")
-            == "G1"
+        isGlazingBar = (
+            not getAdditionalPropertiesValue(position, "C_GLZBAR_G_VAR", "name") == "00"
         )
+
         if isGlazingBar:
             c_glass_seq_w1 = getAdditionalPropertiesValue(
                 position, "C_GLASS_SEQ_W1", "value"
