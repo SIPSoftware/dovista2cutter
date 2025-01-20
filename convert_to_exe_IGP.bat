@@ -1,1 +1,0 @@
-call .\3.8\Scripts\activate & pyinstaller --noconfirm --console  --onefile "dovista2cutterIGP.py" & deactivate
